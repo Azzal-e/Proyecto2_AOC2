@@ -68,8 +68,7 @@ component MD_cont is port (
 		  bus_Write: in std_logic;
 		  Bus_Fetch_inc: in std_logic;
 		  Bus_Addr : in std_logic_vector (31 downto 0); --@
-		  Bus_Data : in std_logic_vector (31 downto 0); -
-		  -Data  
+		  Bus_Data : in std_logic_vector (31 downto 0); --Data  
 		  MD_Bus_DEVsel: out std_logic; -- to notify that the address has been recognized as belonging to this module
 		  MD_Bus_TRDY: out std_logic; -- to signal that the requested operation is to be performed in the current cycle
 		  MD_send_data: out std_logic; -- to send the data to the bus
