@@ -235,7 +235,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			end if;
 	-- COMPLETE  
 		when single_word_transfer_addr =>
-			frame <= '1'; -- Ya ha comenzado la transferencia en el bus, debe estar levantado hasta que termine (se vuelva a estado inicial)
+			Frame <= '1'; -- Ya ha comenzado la transferencia en el bus, debe estar levantado hasta que termine (se vuelva a estado inicial)
 			MC_send_addr_control <= '1';
 			mux_origen <= '0'; -- El origen del dato es del MIPS
 			block_addr <= '0'; -- TRANSFERENCIA DE PALABRA
