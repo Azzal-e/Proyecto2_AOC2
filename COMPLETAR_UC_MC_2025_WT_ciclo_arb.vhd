@@ -236,12 +236,12 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 	-- COMPLETE  
 		when single_word_transfer_addr =>
 			Frame <= '1'; -- Ya ha comenzado la transferencia en el bus, debe estar levantado hasta que termine (se vuelva a estado inicial)
-			MC_send_addr_control <= '1';
+			MC_send_addr_ctrl <= '1';
 			mux_origen <= '0'; -- El origen del dato es del MIPS
 			block_addr <= '0'; -- TRANSFERENCIA DE PALABRA
 
 			-- SEÑAL DE OPERACIÓN
-			if (RE = '1' or (lw_inc = '1' and addr_non_cacheable = '0')) then -- El lw_inc no está soportado por la memoria de datos scratch, por lo que se trata como un lw normal
+			if (RE = '1' or (Fetch_inc = '1' and addr_non_cacheable = '0')) then -- El lw_inc no está soportado por la memoria de datos scratch, por lo que se trata como un lw normal
 				MC_bus_read <= '1';
 			elsif (WE = '1') then -- operacion de escritura
 				MC_bus_write <= '1';
