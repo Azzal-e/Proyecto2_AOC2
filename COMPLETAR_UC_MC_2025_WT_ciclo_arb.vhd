@@ -296,7 +296,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				next_error_state <= memory_error;
 			else -- Se procede a una transferencia de bloque
 				inc_m <= '1'; -- Se incrementa el número de misses
-				MC_tags_WE <= '1'; -- Se sobreescribe el tag de la caché con el del nuevo bloque a cargar (indistintamente se puede realizar al final de la operación)
 				next_state <= bring_block_data; 
 			end if;
 
@@ -362,7 +361,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				else
 					MC_WE0 <= '1';
 				end if;
-
+				MC_tags_WE <= '1'; -- Se sobreescribe el tag de la caché con el del nuevo bloque a cargar (indistintamente se puede realizar al final de la operación)
 				if (RE = '1') then -- Si es lw, se vuelve al inicio para que se produzca el hit y se devuelva la palabra al MIPS
 					next_state <= Inicio;
 				else -- En caso de sw, se inicia una nueva transferencia de palabra para el caso write-through (ahora con hit = 1)
