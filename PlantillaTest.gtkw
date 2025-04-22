@@ -1,14 +1,14 @@
 [*]
 [*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
-[*] Tue Apr 22 11:09:53 2025
+[*] Tue Apr 22 14:57:11 2025
 [*]
 [dumpfile] "C:\Users\eduar\Documents\SegundoIngInf\SegundoCuatri\AOC2\Proyecto2\test.ghw"
 [dumpfile_mtime] "Tue Apr 22 10:39:56 2025"
 [dumpfile_size] 139630
 [savefile] "C:\Users\eduar\Documents\SegundoIngInf\SegundoCuatri\AOC2\Proyecto2\PlantillaTest.gtkw"
 [timestart] 72420000
-[size] 1920 1009
-[pos] -35 -35
+[size] 1280 729
+[pos] -1955 -35
 *-24.000000 96990000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.testbench.
@@ -21,7 +21,7 @@
 [sst_width] 281
 [signals_width] 271
 [sst_expanded] 1
-[sst_vpaned_height] 345
+[sst_vpaned_height] 232
 @28
 top.testbench.uut.mips_core.clk
 @22
