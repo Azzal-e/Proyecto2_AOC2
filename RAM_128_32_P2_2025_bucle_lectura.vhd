@@ -39,15 +39,15 @@ entity RAM_128_32 is port (
         enable: in std_logic; -- If enable is 0 WE and RE are ignored
         WE : in std_logic;		-- write enable	
 		RE : in std_logic;		-- read enable		
-		Fetch_inc: in std_logic;		-- NUEVO: señal que indica que hay que hacer una FETCH_inc atómica usando el paradigma in-memory processing  
-		Mem_ready: out std_logic; -- indica si puede hacer la operación solicitada en el ciclo actual
+		Fetch_inc: in std_logic;		-- NUEVO: seï¿½al que indica que hay que hacer una FETCH_inc atï¿½mica usando el paradigma in-memory processing  
+		Mem_ready: out std_logic; -- indica si puede hacer la operaciï¿½n solicitada en el ciclo actual
 		Dout : out std_logic_vector (31 downto 0));
 end RAM_128_32;
 
 architecture Behavioral of RAM_128_32 is
 
 	component reg is
-	    generic (size: natural := 32);  -- por defecto son de 32 bits, pero se puede usar cualquier tamaño
+	    generic (size: natural := 32);  -- por defecto son de 32 bits, pero se puede usar cualquier tamaï¿½o
 		Port ( Din : in  STD_LOGIC_VECTOR (size -1 downto 0);
 	           clk : in  STD_LOGIC;
 		   reset : in  STD_LOGIC;
@@ -64,7 +64,8 @@ architecture Behavioral of RAM_128_32 is
 	end component;
 	
 	type RamType is array(0 to 127) of std_logic_vector(31 downto 0);
-	signal RAM : RamType := (        X"00000001", X"00000000", X"00000000", X"00000000", X"00000001", X"00000000", X"00000000", X"00000000", -- word 0,1,2,3,4,5,6,7
+	-- RAM PARA TESTBENCH ERROR
+	signal RAM : RamType := (        X"00000001", X"10000000", X"00000AB0", X"01000000", X"0x0BAD0C0D", X"00000000", X"00000000", X"00000000", -- word 0,1,2,3,4,5,6,7
 									X"00000001", X"00000000", X"00000000", X"00000000", X"00000001", X"00000000", X"00000000", X"00000000", --word 8,...
 									X"00000001", X"00000000", X"00000000", X"00000000", X"00000001", X"00000000", X"00000000", X"00000000",--word 16,...
 									X"00000001", X"00000000", X"00000000", X"00000000", X"00000001", X"00000000", X"00000000", X"00000000",--word 24,...
@@ -79,7 +80,7 @@ architecture Behavioral of RAM_128_32 is
 									X"00001000", X"00000000", X"00000000", X"00000000", X"00001000", X"00000000", X"00000000", X"00000000",--word 96,...
 									X"00001000", X"00000000", X"00000000", X"00000000", X"00001000", X"00000000", X"00000000", X"00000000",--word 104,...
 									X"00001000", X"00000000", X"00000000", X"00000000", X"00001000", X"00000000", X"00000000", X"00000000",--word 112,...
-									X"00001000", X"00000000", X"00000000", X"00000000", X"00001000", X"00000000", X"00000000", X"00000000");--word 120,...
+									X"00001000", X"00000000", X"00000000", X"00000000", X"00001000", X"00000000", X"00000000", X"00000004");--word 120,...
 									
 	signal dir_7:  std_logic_vector(6 downto 0); 
 	signal internal_WE, internal_RE, internal_reg_load, State_Machine_enable, fetch_inc_ready, fetch_inc_we, fetch_inc_re, RAM_Din_Dout_control: std_logic;
@@ -88,11 +89,11 @@ architecture Behavioral of RAM_128_32 is
 	
 	begin
 	 
-	 dir_7 <= ADDR(8 downto 2); -- como la memoria es de 128 plalabras no usamos la dirección completa sino sólo 7 bits. Como se direccionan los bytes, pero damos palabras no usamos los 2 bits menos significativos
+	 dir_7 <= ADDR(8 downto 2); -- como la memoria es de 128 plalabras no usamos la direcciï¿½n completa sino sï¿½lo 7 bits. Como se direccionan los bytes, pero damos palabras no usamos los 2 bits menos significativos
 	 process (CLK)
 	    begin
 	        if (CLK'event and CLK = '1') then
-	            if (internal_WE = '1') and (enable = '1')then -- sólo se escribe si WE vale 1
+	            if (internal_WE = '1') and (enable = '1')then -- sï¿½lo se escribe si WE vale 1
 	                RAM(conv_integer(dir_7)) <= RAM_Din;
 					--report works as a printf
 	                report "Simulation time : " & time'IMAGE(now) & ".  Data written: " & integer'image(to_integer(unsigned(Din))) & ", in ADDR = " & integer'image(to_integer(unsigned(ADDR)));
@@ -102,12 +103,12 @@ architecture Behavioral of RAM_128_32 is
 	
 	    RAM_Dout <= RAM(conv_integer(dir_7)) when ((internal_RE='1') and (enable = '1')) else x"00000000"; 
 --------------------------------------------------------------------------------------------------
---	Gestión para la instrucción atómica lw_inc con el paradigma de in-memory processing
+--	Gestiï¿½n para la instrucciï¿½n atï¿½mica lw_inc con el paradigma de in-memory processing
 -- 
--- 	Mem_Reg: Almacena el valor leído en Mem para usarlo al ciclo siguiente.
--- 	Fetch_inc_counter: implementa la máquina de dos estados que gestiona el fetch_inc. 
---	En el primer ciclo se cargará el dato en el registro y se pondrá mem_ready a 0
--- 	En el segundo se sumará 1 al valor leído, se actualizará la memoria, y se envíará el valor original al MIPS
+-- 	Mem_Reg: Almacena el valor leï¿½do en Mem para usarlo al ciclo siguiente.
+-- 	Fetch_inc_counter: implementa la mï¿½quina de dos estados que gestiona el fetch_inc. 
+--	En el primer ciclo se cargarï¿½ el dato en el registro y se pondrï¿½ mem_ready a 0
+-- 	En el segundo se sumarï¿½ 1 al valor leï¿½do, se actualizarï¿½ la memoria, y se envï¿½arï¿½ el valor original al MIPS
 --------------------------------------------------------------------------------------------------
 	Mem_Reg: reg generic map (size => 32)
 					port map (	Din => RAM_Dout, clk => clk, reset => reset, load => internal_reg_load, Dout => Fetch_inc_data);	 
