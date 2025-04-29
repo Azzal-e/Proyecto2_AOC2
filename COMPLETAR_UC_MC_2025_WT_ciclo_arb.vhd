@@ -319,7 +319,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 		when bring_single_word_data =>
 			-- Caso de traer a MIPS una sola palabra del bus.
 			Frame <= '1';
-
+			--MC_bus_Fetch_inc <= Fetch_inc;
 			-- TODO ZANOS ESTO MIRAR
 			last_word <= '1';
 			
