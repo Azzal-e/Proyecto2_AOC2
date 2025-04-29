@@ -25,13 +25,13 @@ use IEEE.std_logic_unsigned.all;
 entity MD_scratch is port (
 		  CLK : in std_logic;
 		  reset: in std_logic;
-		  Bus_Frame: in std_logic; -- indica que el master quiere más datos
+		  Bus_Frame: in std_logic; -- indica que el master quiere mï¿½s datos
 		  bus_Read: in std_logic;
 		  bus_Write: in std_logic;
 		  Bus_Addr : in std_logic_vector (31 downto 0); --Direcciones 
 		  Bus_Data : in std_logic_vector (31 downto 0); --Datos  
-		  MD_Bus_DEVsel: out std_logic; -- para avisar de que se ha reconocido que la dirección pertenece a este módulo
-		  MD_Bus_TRDY: out std_logic; -- para avisar de que se va a realizar la operación solicitada en el ciclo actual
+		  MD_Bus_DEVsel: out std_logic; -- para avisar de que se ha reconocido que la direcciï¿½n pertenece a este mï¿½dulo
+		  MD_Bus_TRDY: out std_logic; -- para avisar de que se va a realizar la operaciï¿½n solicitada en el ciclo actual
 		  MD_send_data: out std_logic; -- para enviar los datos al bus
         MD_Dout : out std_logic_vector (31 downto 0)		  -- salida de datos
 		  );
@@ -43,7 +43,7 @@ architecture Behavioral of MD_scratch is
 -- misma memoria que en el proyecto anterior
 component RAM_64_32 is port (
 		  CLK : in std_logic;
-		  enable: in std_logic; --solo se lee o escribe si enable está activado
+		  enable: in std_logic; --solo se lee o escribe si enable estï¿½ activado
 		  ADDR : in std_logic_vector (31 downto 0); --Dir 
         Din : in std_logic_vector (31 downto 0);--entrada de datos para el puerto de escritura
         WE : in std_logic;		-- write enable	
@@ -61,7 +61,7 @@ end component;
 
 
 component reg is
-    generic (size: natural := 32);  -- por defecto son de 32 bits, pero se puede usar cualquier tamaño
+    generic (size: natural := 32);  -- por defecto son de 32 bits, pero se puede usar cualquier tamaï¿½o
 	Port ( Din : in  STD_LOGIC_VECTOR (size -1 downto 0);
            clk : in  STD_LOGIC;
 		   reset : in  STD_LOGIC;
@@ -77,14 +77,14 @@ signal state, next_state : state_type;
 signal load_control, Internal_read, Internal_write: std_logic; --signals to store inputs bus_read, and bus_write
 begin
 ---------------------------------------------------------------------------
--- Decodificador: identifica cuando la dirección pertenece a la MD: (X"10000000"-X"100000FF")
+-- Decodificador: identifica cuando la direcciï¿½n pertenece a la MD: (X"10000000"-X"100000FF")
 ---------------------------------------------------------------------------
--- Se activa cuando el bus quiere realizar una operación (bus_read o bus_write = '1') y la dirección está en el rango
+-- Se activa cuando el bus quiere realizar una operaciï¿½n (bus_read o bus_write = '1') y la direcciï¿½n estï¿½ en el rango
 addr_in_range <= '1' when (Bus_Addr(31 downto 8) = "000100000000000000000000") AND ((bus_Read ='1')or (bus_Write = '1'))else '0'; 
 
 
 ---------------------------------------------------------------------------
--- Registro que almacena las señales de control del bus
+-- Registro que almacena las seï¿½ales de control del bus
 ---------------------------------------------------------------------------
 
 Read_Write_register: process (clk)
@@ -104,7 +104,7 @@ Read_Write_register: process (clk)
 -- Memoria de datos de 64 palabras de 32 bits
 ---------------------------------------------------------------------------
 
-MD_scratch: RAM_64_32 PORT MAP (CLK => CLK, enable => MD_Scratch_enable, ADDR => MD_scratch_addr, Din => Bus_Data, WE =>  Scratch_WE, RE => Scratch_RE, Dout => MD_Scratch_Dout_int);
+RAM_MD_scratch: RAM_64_32 PORT MAP (CLK => CLK, enable => MD_Scratch_enable, ADDR => MD_scratch_addr, Din => Bus_Data, WE =>  Scratch_WE, RE => Scratch_RE, Dout => MD_Scratch_Dout_int);
 
 --La salida de la scratch se guarda en un registro
 output_reg: reg generic map (size => 32)
@@ -112,15 +112,15 @@ output_reg: reg generic map (size => 32)
 -- registro para almacenar la @(es de 7 bits aunque para esta memoria basta con 6)
 reg_addr: reg 	generic map (size => 7)
 				PORT MAP(Din => Bus_Addr(8 downto 2), CLK => CLK, reset => reset, load => load_addr, Dout => addr_reg);
--- @ para la Scratch (en esta memoria son sólo 6 bits)
--- sólo asignamos los bits que se usan. El resto se quedan a 0.
+-- @ para la Scratch (en esta memoria son sï¿½lo 6 bits)
+-- sï¿½lo asignamos los bits que se usan. El resto se quedan a 0.
 MD_scratch_addr(7 downto 2) <= 	addr_reg(5 downto 0); 
 MD_scratch_addr(1 downto 0) <= "00";
 MD_scratch_addr(31 downto 8) <= "000000000000000000000000";
 
 
 ---------------------------------------------------------------------------
--- Máquina de estados para de la memoria scratch
+-- Mï¿½quina de estados para de la memoria scratch
 ---------------------------------------------------------------------------
 
 SYNC_PROC: process (clk)
@@ -135,13 +135,13 @@ SYNC_PROC: process (clk)
    end process;
 --Mealy State-Machine - Outputs based on state and inputs
 ----------------------------------------------------------------------------
--- Esta máquina de estados gestiona load_reg, load_control, MD_Bus_TRDY, y MD_send_data
+-- Esta mï¿½quina de estados gestiona load_reg, load_control, MD_Bus_TRDY, y MD_send_data
 ---------------------------------------------------------------------------
 
 
    OUTPUT_DECODE: process (state, addr_in_range, Internal_read, Internal_write)
    begin
-		-- valores por defecto, si no se asigna otro valor en un estado valdrán lo que se asigna aquí
+		-- valores por defecto, si no se asigna otro valor en un estado valdrï¿½n lo que se asigna aquï¿½
 		
 		MD_Bus_DEVsel <= '0';
 		MD_Scratch_enable <= '0';
@@ -156,10 +156,10 @@ SYNC_PROC: process (clk)
 		-- Estado inicial: Espera   
 		case state is
 			when Inicio =>   
-				-- si la dirección no está en rango no hay que hacer nada
-				If (Addr_in_range= '0') or (Bus_Frame = '0') then -- si no piden nada no hacemos nada. Sólo leemos la dirección si se activa Bus_frame
+				-- si la direcciï¿½n no estï¿½ en rango no hay que hacer nada
+				If (Addr_in_range= '0') or (Bus_Frame = '0') then -- si no piden nada no hacemos nada. Sï¿½lo leemos la direcciï¿½n si se activa Bus_frame
 					next_state <= Inicio;
-				else -- si frame es '1' y detectamos que la dirección nos pertenece la guardamos
+				else -- si frame es '1' y detectamos que la direcciï¿½n nos pertenece la guardamos
 					next_state <= Acceso;
 					MD_Bus_DEVsel <= '1';
 					load_addr <= '1';
@@ -176,7 +176,7 @@ SYNC_PROC: process (clk)
 						next_state <= Envio;
 						load_reg <= '1'; --La salida de la memoria se carga en el registro para enviarla en el ciclo siguiente
 						Scratch_RE <= '1';
-					else --No debería pasar, pero si no hay que hacer nada nos volvemos a Inicio
+					else --No deberï¿½a pasar, pero si no hay que hacer nada nos volvemos a Inicio
 						next_state <= Inicio;
 					end if;
 				else --Si han bajado frame no hacemos nada
