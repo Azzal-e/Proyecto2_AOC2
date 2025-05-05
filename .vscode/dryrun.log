@@ -1,0 +1,76 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory 'c:/Users/eduar/Documents/SegundoIngInf/SegundoCuatri/AOC2/Proyecto2'
+echo "This file was not locally built (C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/std_logic_1164.vhdl)"
+exit 1
+echo "This file was not locally built (C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/std_logic_1164-body.vhdl)"
+exit 1
+echo "This file was not locally built (C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/numeric_std.vhdl)"
+exit 1
+echo "This file was not locally built (C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/numeric_std-body.vhdl)"
+exit 1
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit testbench_AOC2_SoC.vhd
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit AOC2_SoC.vhd
+echo "This file was not locally built (C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/synopsys/std_logic_arith.vhdl)"
+exit 1
+echo "This file was not locally built (C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/synopsys/std_logic_unsigned.vhdl)"
+exit 1
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit IO_MD_subsystem_P2_25.vhd
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit INCOMPLETE_Mips_segmentado_IRQ.vhd
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit MC_datos_2025_WT.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit MD_cont_2025.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit MD_scratch_2025.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit arbitro.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit counter.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit IO_master_2025.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit REGISTER.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit Via_2025_WT.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit FIFO_reg.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit COMPLETAR_UC_MC_2025_WT_ciclo_arb.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit RAM_128_32_P2_2025_bucle_lectura.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit memoriaRAM_64_32_enable.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit adder32.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit RAM_I_test_exceptions.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit Banco_ID.vhd
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit BReg.vhd
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit Ext_signo.vhd
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit bits_shifter.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit INCOMPLETE_UC_Mips_2025.vhd
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit INCOMPLETE_UD_2025.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit Banco_EX.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit INCOMPLETE_UA_2025.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit mux4_1.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit mux2_1.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit ALU.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit mux2_5bits.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit Banco_MEM.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit Exception_manager.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -a --ieee=synopsys --workdir=WORK -fexplicit Banco_WB.vhd
+ 
+C:\msys64\mingw64\bin\ghdl.exe -e --ieee=synopsys --workdir=WORK -fexplicit testbench
+make: Leaving directory 'c:/Users/eduar/Documents/SegundoIngInf/SegundoCuatri/AOC2/Proyecto2'
+ 

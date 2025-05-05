@@ -1,0 +1,1002 @@
+make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.4.1
+# Built for Windows32
+# Copyright (C) 1988-2023 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Mon May 05 11:11:47 2025
+
+# Variables
+
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+SYSTEMDRIVE = C:
+# environment
+LC_ALL = C
+# environment
+_MSYS2_BASH = C:\msys64\usr\bin\bash.exe
+# environment
+EFC_13268_1592913036 = 1
+# environment
+USERPROFILE = C:\Users\eduar
+# environment
+VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
+# environment
+LOCALAPPDATA = C:\Users\eduar\AppData\Local
+# environment
+EFC_13268_1262719628 = 1
+# environment
+VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
+# environment
+VSCODE_CWD = C:\WINDOWS\system32
+# environment
+CHOCOLATEYINSTALL = C:\ProgramData\chocolatey
+# environment
+SYSTEMROOT = C:\WINDOWS
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+# environment
+GNUPLOT_LIB = C:\Program Files\gnuplot\demo;C:\Program Files\gnuplot\demo\games;C:\Program Files\gnuplot\share
+# default
+MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
+# automatic
+@D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_7072_ECUYRGTQYNRVCRGH
+# makefile (from 'Makefile', line 7)
+GHDLFLAGS = --ieee=synopsys --workdir=WORK -fexplicit
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# automatic
+%D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
+# automatic
+^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\eduar\AppData\Roaming\Code\CachedData\17baf841131aa23349f217ca7c570c76ee87b957
+# environment
+LANG = C
+# default
+.LOADED := 
+# environment
+TMP = C:\Users\eduar\AppData\Local\Temp
+# default
+.INCLUDE_DIRS := .
+# environment
+CONFIGSETROOT = C:\WINDOWS\ConfigSetRoot
+# environment
+PROCESSOR_ARCHITEW6432 = AMD64
+# makefile
+MAKEFLAGS = pqrR
+# environment
+ONEDRIVE = C:\Users\eduar\OneDrive
+# environment
+EFC_13268_3789132940 = 1
+# makefile
+CURDIR := c:/Users/eduar/Documents/SegundoIngInf/SegundoCuatri/AOC2/Proyecto2
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
+# automatic
+*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+# environment
+PROGRAMFILES = C:\Program Files (x86)
+# environment
+MFLAGS = -pqrR
+# default
+.SHELLFLAGS := -c
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# automatic
++D = $(patsubst %/,%,$(patsubst %\,%,$(dir $+)))
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_PID = 7072
+# automatic
+?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
+# environment
+__PSLOCKDOWNPOLICY = 0
+# automatic
+*F = $(notdir $*)
+# automatic
+<D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
+# environment
+VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"es-es","resolvedLanguage":"en","defaultMessagesFile":"C:\\Users\\eduar\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","locale":"en-us","availableLanguages":{}}
+# default
+MAKE_HOST := Windows32
+# environment
+PROGRAMDATA = C:\ProgramData
+# default
+SHELL := sh.exe
+# environment
+HOMEPATH = \Users\eduar
+# default
+MAKECMDGOALS := all
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+COMSPEC = C:\WINDOWS\system32\cmd.exe
+# environment
+WINDIR = C:\WINDOWS
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = C:\app\eduar\product\18.0.0\dbhomeXE\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\Users\eduar\AppData\Local\Programs\Python\Python313\;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\AutoFirma\AutoFirma;C:\Program Files\dotnet\;C:\Program Files\PuTTY\;C:\Program Files\Graphviz\bin;C:\Program Files\Git\cmd;C:\Users\eduar\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\eduar\AppData\Local\Programs\Python\Python313\;C:\Users\eduar\.cargo\bin;C:\Users\eduar\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\eduar\AppData\Local\Programs\Python\Python311\;C:\Users\eduar\AppData\Local\Microsoft\WindowsApps;C:\Users\eduar\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\eduar\AppData\Local\Pandoc\;C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;C:\winflexbison;C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.2.2\bin;;C:\oracle\instantclient_23_7;C:\Users\eduar\AppData\Roaming\cabal\bin;C:\tools\ghc-9.8.2\bin;C:\Users\eduar\AppData\Roaming\local\bin;
+# environment
+ZES_ENABLE_SYSMAN = 1
+# environment
+COMPUTERNAME = PORTATILDEEDU
+# default
+MAKEFILES := 
+# automatic
+^F = $(notdir $^)
+# environment
+_MSYS2_PREFIX = x86_64
+# environment
+PROMPT = $P$G
+# environment
+CHOCOLATEYLASTPATHUPDATE = 133879926211280401
+# environment
+INTELLIJ IDEA = C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.2.2\bin;
+# makefile (from 'Makefile', line 6)
+GHDL = C:\msys64\mingw64\bin\ghdl.exe
+# environment
+LOGONSERVER = \\PORTATILDEEDU
+# environment
+USERNAME = eduar
+# environment
+COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
+# automatic
+?F = $(notdir $?)
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# automatic
++F = $(notdir $+)
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERDOMAIN = PORTATILDEEDU
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+OS = Windows_NT
+# makefile
+.DEFAULT_GOAL := all
+# default
+MAKE_VERSION := 4.4.1
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# environment
+USERDOMAIN_ROAMINGPROFILE = PORTATILDEEDU
+# environment
+NUMBER_OF_PROCESSORS = 20
+# environment
+PUBLIC = C:\Users\Public
+# environment
+APPDATA = C:\Users\eduar\AppData\Roaming
+# environment
+HOMEDRIVE = C:
+# environment
+PROCESSOR_ARCHITECTURE = x86
+# environment
+STACK_ROOT = C:\sr
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+TEMP = C:\Users\eduar\AppData\Local\Temp
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\2cef74bf-1.99.3-main-sock
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# environment
+EFC_13268_2775293581 = 1
+# default
+SUFFIXES := 
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+SESSIONNAME = Console
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync load dospaths
+# environment
+PROCESSOR_REVISION = ba02
+# environment
+VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+CHOCOLATEYTOOLSLOCATION = C:\tools
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 186 Stepping 2, GenuineIntel
+# variable set hash-table stats:
+# Load=109/1024=11%, Rehash=0, Collisions=11/142=8%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (key c:/Users/eduar/Documents/SegundoIngInf/SegundoCuatri/AOC2/Proyecto2, mtime 1746269224): 64 files, no impossibilities.
+
+# 64 files, no impossibilit 
+ies in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/synopsys/std_logic_unsigned.vhdl:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Exception_manager.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+counter.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+BReg.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Banco_ID.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\Ext_signo.o: Ext_signo.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:56
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 80):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+Banco_MEM.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+MD_cont_2025.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+adder32.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\Banco_WB.o: Banco_WB.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:47:01
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 104):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+INCOMPLETE_UD_2025.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\ALU.o: ALU.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:59
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 96):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+INCOMPLETE_UA_2025.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\REGISTER.o: REGISTER.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:52
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 60):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\COMPLETAR_UC_MC_2025_WT_ciclo_arb.o: COMPLETAR_UC_MC_2025_WT_ciclo_arb.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:54
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 66):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\counter.o: counter.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:52
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 56):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+bits_shifter.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:43
+#  File has been updated.
+#  Successfully updated.
+
+C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std-body.o: C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/numeric_std-body.vhdl C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 31):
+	@echo "This file was not locally built ($<)"
+	exit 1
+
+# Not a target:
+IO_master_2025.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\bits_shifter.o: bits_shifter.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:57
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 82):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/std_logic_1164-body.vhdl:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+
+WORK\RAM_I_test_exceptions.o: RAM_I_test_exceptions.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:55
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 74):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\Via_2025_WT.o: Via_2025_WT.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:53
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 62):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+Banco_WB.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+RAM_I_test_exceptions.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:45:53
+#  File has been updated.
+#  Successfully updated.
+
+WORK\MC_datos_2025_WT.o: MC_datos_2025_WT.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:50
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 48):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164-body.o: C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/std_logic_1164-body.vhdl C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 25):
+	@echo "This file was not locally built ($<)"
+	exit 1
+
+# Not a target:
+mux4_1.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/numeric_std-body.vhdl:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+memoriaRAM_64_32_enable.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-29 20:11:38
+#  File has been updated.
+#  Successfully updated.
+
+testbench: C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164-body.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std-body.o WORK\testbench_AOC2_SoC.o WORK\AOC2_SoC.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o WORK\IO_MD_subsystem_P2_25.o WORK\INCOMPLETE_Mips_segmentado_IRQ.o WORK\MC_datos_2025_WT.o WORK\MD_cont_2025.o WORK\MD_scratch_2025.o WORK\arbitro.o WORK\counter.o WORK\IO_master_2025.o WORK\REGISTER.o WORK\Via_2025_WT.o WORK\FIFO_reg.o WORK\COMPLETAR_UC_MC_2025_WT_ciclo_arb.o WORK\RAM_128_32_P2_2025_bucle_lectura.o WORK\memoriaRAM_64_32_enable.o WORK\adder32.o WORK\RAM_I_test_exceptions.o WORK\Banco_ID.o WORK\BReg.o WORK\Ext_signo.o WORK\bits_shifter.o WORK\INCOMPLETE_UC_Mips_2025.o WORK\INCOMPLETE_UD_2025.o WORK\Banco_EX.o WORK\INCOMPLETE_UA_2025.o WORK\mux4_1.o WORK\mux2_1.o WORK\ALU.o WORK\mux2_5bits.o WORK\Banco_MEM.o WORK\Exception_manager.o WORK\Banco_WB.o
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := testbench
+# automatic
+# * := 
+# automatic
+# < := C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+# automatic
+# + := C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164-body.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std-body.o WORK\testbench_AOC2_SoC.o WORK\AOC2_SoC.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o WORK\IO_MD_subsystem_P2_25.o WORK\INCOMPLETE_Mips_segmentado_IRQ.o WORK\MC_datos_2025_WT.o WORK\MD_cont_2025.o WORK\MD_scratch_2025.o WORK\arbitro.o WORK\counter.o WORK\IO_master_2025.o WORK\REGISTER.o WORK\Via_2025_WT.o WORK\FIFO_reg.o WORK\COMPLETAR_UC_MC_2025_WT_ciclo_arb.o WORK\RAM_128_32_P2_2025_bucle_lectura.o WORK\memoriaRAM_64_32_enable.o WORK\adder32.o WORK\RAM_I_test_exceptions.o WORK\Banco_ID.o WORK\BReg.o WORK\Ext_signo.o WORK\bits_shifter.o WORK\INCOMPLETE_UC_Mips_2025.o WORK\INCOMPLETE_UD_2025.o WORK\Banco_EX.o WORK\INCOMPLETE_UA_2025.o WORK\mux4_1.o WORK\mux2_1.o WORK\ALU.o WORK\mux2_5bits.o WORK\Banco_MEM.o WORK\Exception_manager.o WORK\Banco_WB.o
+# automatic
+# % := 
+# automatic
+# ^ := C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164-body.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std-body.o WORK\testbench_AOC2_SoC.o WORK\AOC2_SoC.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o WORK\IO_MD_subsystem_P2_25.o WORK\INCOMPLETE_Mips_segmentado_IRQ.o WORK\MC_datos_2025_WT.o WORK\MD_cont_2025.o WORK\MD_scratch_2025.o WORK\arbitro.o WORK\counter.o WORK\IO_master_2025.o WORK\REGISTER.o WORK\Via_2025_WT.o WORK\FIFO_reg.o WORK\COMPLETAR_UC_MC_2025_WT_ciclo_arb.o WORK\RAM_128_32_P2_2025_bucle_lectura.o WORK\memoriaRAM_64_32_enable.o WORK\adder32.o WORK\RAM_I_test_exceptions.o WORK\Banco_ID.o WORK\BReg.o WORK\Ext_signo.o WORK\bits_shifter.o WORK\INCOMPLETE_UC_Mips_2025.o WORK\INCOMPLETE_UD_2025.o WORK\Banco_EX.o WORK\INCOMPLETE_UA_2025.o WORK\mux4_1.o WORK\mux2_1.o WORK\ALU.o WORK\mux2_5bits.o WORK\Banco_MEM.o WORK\Exception_manager.o WORK\Banco_WB.o
+# automatic
+# ? := C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164-body.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std-body.o WORK\testbench_AOC2_SoC.o WORK\AOC2_SoC.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o WORK\IO_MD_subsystem_P2_25.o  
+WORK\INCOMPLETE_Mips_segmentado_IRQ.o WORK\MC_datos_2025_WT.o WORK\MD_cont_2025.o WORK\MD_scratch_2025.o WORK\arbitro.o WORK\counter.o WORK\IO_master_2025.o WORK\REGISTER.o WORK\Via_2025_WT.o WORK\FIFO_reg.o WORK\COMPLETAR_UC_MC_2025_WT_ciclo_arb.o WORK\RAM_128_32_P2_2025_bucle_lectura.o WORK\memoriaRAM_64_32_enable.o WORK\adder32.o WORK\RAM_I_test_exceptions.o WORK\Banco_ID.o WORK\BReg.o WORK\Ext_signo.o WORK\bits_shifter.o WORK\INCOMPLETE_UC_Mips_2025.o WORK\INCOMPLETE_UD_2025.o WORK\Banco_EX.o WORK\INCOMPLETE_UA_2025.o WORK\mux4_1.o WORK\mux2_1.o WORK\ALU.o WORK\mux2_5bits.o WORK\Banco_MEM.o WORK\Exception_manager.o WORK\Banco_WB.o
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/14=7%
+#  recipe to execute (from 'Makefile', line 14):
+	$(GHDL) -e $(GHDLFLAGS) $@
+
+# Not a target:
+RAM_128_32_P2_2025_bucle_lectura.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:14
+#  File has been updated.
+#  Successfully updated.
+
+WORK\AOC2_SoC.o: AOC2_SoC.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:48
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 36):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\testbench_AOC2_SoC.o: testbench_AOC2_SoC.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:47
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 34):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+INCOMPLETE_UC_Mips_2025.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\INCOMPLETE_Mips_segmentado_IRQ.o: INCOMPLETE_Mips_segmentado_IRQ.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:49
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 46):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\MD_cont_2025.o: MD_cont_2025.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:51
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 50):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+FIFO_reg.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\Banco_EX.o: Banco_EX.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:58
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 88):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\arbitro.o: arbitro.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:51
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 54):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+AOC2_SoC.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mux2_1.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\INCOMPLETE_UC_Mips_2025.o: INCOMPLETE_UC_Mips_2025.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:57
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 84):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+ALU.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o: C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/numeric_std.vhdl C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 28):
+	@echo "This file was not locally built ($<)"
+	exit 1
+
+# Not a target:
+COMPLETAR_UC_MC_2025_WT_ciclo_arb.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-29 17:15:20
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+WORK\Banco_MEM.o: Banco_MEM.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:47:00
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 100):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+testbench_AOC2_SoC.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+all: testbench
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
+
+run: testbench
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 18):
+	$(GHDL) -r testbench $(GHDLRUNFLAGS)
+
+C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o: C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/synopsys/std_logic_arith.vhdl C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 38):
+	@echo "This file was not locally built ($<)"
+	exit 1
+
+C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o: C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/synopsys/std_logic_unsigned.vhdl C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 41):
+	@echo "This file was not locally built ($<)"
+	exit 1
+
+WORK\IO_mas 
+ter_2025.o: IO_master_2025.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:52
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 58):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\mux4_1.o: mux4_1.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:59
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 92):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+MC_datos_2025_WT.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\memoriaRAM_64_32_enable.o: memoriaRAM_64_32_enable.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:55
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 70):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/numeric_std.vhdl:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+
+WORK\MD_scratch_2025.o: MD_scratch_2025.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:51
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 52):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\IO_MD_subsystem_P2_25.o: IO_MD_subsystem_P2_25.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:48
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 44):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\FIFO_reg.o: FIFO_reg.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:53
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 64):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/std_logic_1164.vhdl:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+
+WORK\adder32.o: adder32.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_arith.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:55
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 72):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\Exception_manager.o: Exception_manager.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:47:00
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 102):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+Via_2025_WT.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o: C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/ieee/v93/std_logic_1164.vhdl
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 22):
+	@echo "This file was not locally built ($<)"
+	exit 1
+
+# Not a target:
+arbitro.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Ext_signo.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+mux2_5bits.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\mux2_1.o: mux2_1.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:59
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 94):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+INCOMPLETE_Mips_segmentado_IRQ.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+C:\msys64\mingw64\lib/ghdl\ieee\v93\../../src/synopsys/std_logic_arith.vhdl:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2024-11-13 04:33:30
+#  File has been updated.
+#  Successfully updated.
+
+WORK\BReg.o: BReg.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:56
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 78):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+REGISTER.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+WORK\Banco_ID.o: Banco_ID.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:56
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 76):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+Banco_EX.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\INCOMPLETE_UD_2025.o: INCOMPLETE_UD_2025.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:58
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 86):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\RAM_128_32_P2_2025_bucle_lectura.o: RAM_128_32_P2_2025_bucle_lectura.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_unsigned.o C:\msys64\mingw64\lib/ghdl\ieee\v93\numeric_std.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:54
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 68):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+WORK\INCOMPLETE_UA_2025.o: INCOMPLETE_UA_2025.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:46:58
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 90):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+IO_MD_subsystem_P2_25.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-22 10:07:00
+#  File has been updated.
+#  Successfully updated.
+
+WORK\mux2_5bits.o: mux2_5bits.vhd C:\msys64\mingw64\lib/ghdl\ieee\v93\std_logic_1164.o
+#  Implicit rule search has not been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-05-03 12:47:00
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 98):
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Not a target:
+MD_scratch_2025.vhd:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-04-29 20:13:44
+#  File has been updated.
+#  Successfully updated.
+
+# files hash-table stats:
+# Load=84/1024=8%, Rehash=0, Collisions=15/325=5%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variab 
+le) search path.
+
+# strcache buffers: 1 (0) / strings = 114 / storage = 2623 B / avg = 23 B
+# current buf: size = 8174 B / used = 2623 B / count = 114 / avg = 23 B
+
+# strcache performance: lookups = 383 / hit rate = 70%
+# hash-table stats:
+# Load=114/8192=1%, Rehash=0, Collisions=2/383=1%
+# Finished Make data base on Mon May 05 11:11:47 2025
+
+ 
