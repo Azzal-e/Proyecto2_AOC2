@@ -78,10 +78,10 @@ sw r3, 240(r9); @0x0064 (almacenar el valor 4 * k en la dirección 0x000000F0)
                 ; WRITE MISS CONFLICTO -> VIA 1 SET 3
 
 ;; --- CÁLCULO DE i * (k+1)
-add r1, r1, r5; @0x0068 
-add r2, r2, r6; @0x006C 
-add r3, r3, r7; @0x0070
-add r4, r4, r8; @0x0074
+add r0, r0, r5; @0x0068 
+add r1, r1, r6; @0x006C 
+add r2, r2, r7; @0x0070
+add r3, r3, r8; @0x0074
 
 ;; Decrementar contador de iteraciones
 sub r4, r4, r5 ;; @0x0078 (restar 1 al contador de iteraciones)
