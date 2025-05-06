@@ -7,7 +7,7 @@
 add r0, r0, r0      # r0 = 0 (dirección base)
 add r14, r0, r0      # r14 = 0
 add r15, r0, r0      # r15 = 0 (contador de bucle)
-lw r11, 268(r0)     # Cargar constante 1
+lw r11, 272(r0)     # Cargar constante 1
 lw r12, 264(r0)     # Cargar constante 16
 #r13 para fin de bucle
 add r13,r11,r11		# r13 = 1 + 1 = 2
@@ -17,7 +17,11 @@ add r13,r13,r13		# r13 = 2 + 2 = 4
 # Inicializar punteros
 add r1, r0, r0      # r1 apunta al inicio de matriz A
 lw r2, 256(r0)      # r2 = 64 (inicio de matriz B, cargar desde memoria)
-lw r3, 260(r0)      # r3 = 128 (inicio de matriz Resultado, cargar desde memoria)
+lw r3, 288(r0)      # r3 = 128 (inicio de matriz Resultado, cargar desde memoria)
+# Cargar registro useless para ocupar bien una via entera.
+
+lw r16,304(r0)
+
 
 
 # Bucle principal para recorrer la matriz
@@ -58,8 +62,8 @@ fin_bucle1:
 # Segunda fase: multiplicar cada elemento por 2
 # Restablecemos contadores
 add r15, r0, r0      # Reiniciar contador
-lw r1, 260(r0)      # r1 = 128 (inicio de matriz Resultado)
-lw r3, 272(r0)      # r3 = 192 (nueva ubicación para almacenar)
+lw r1, 288(r0)      # r1 = 128 (inicio de matriz Resultado)
+lw r3, 292(r0)      # r3 = 192 (nueva ubicación para almacenar)
 
 # Bucle de multiplicación por 2
 bucle_mult:
@@ -96,7 +100,7 @@ lw_inc r4,48(r2)
 add r15, r0, r0     # Reiniciar contador
 add r1, r0, r0      # r1 apunta al inicio de matriz A
 lw r2, 256(r0)      # r2 = 64 (inicio de matriz B)
-lw r3, 276(r0)      # r3 = 384 (otra ubicación para almacenar)
+lw r3, 276(r0)      # r3 = 320 (otra ubicación para almacenar)
 
 # Repetir bucle principal tras invalidación
 bucle_repetir:
