@@ -72,7 +72,7 @@ entity UC_MC is
 		inc_w : out STD_LOGIC; -- indicates a write occurred in cache
 		inc_r : out STD_LOGIC; -- indicates a read occurred in cache
 		inc_inv :out STD_LOGIC; -- indica que ha habido una invalidaci�n
-
+		inc_rm : out STD_LOGIC; -- indicates a read miss occurred in cache
 		-- Error management
 		unaligned: in STD_LOGIC; -- indicates the address requested by MIPS is not aligned
 		Mem_ERROR: out std_logic; -- activated if in the last transfer the slave did not respond to its address
@@ -177,6 +177,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 	inc_m <= '0';
 	inc_w <= '0';
 	inc_r <= '0';
+	inc_rm <= '0';
 	inc_inv <= '0';
 	Bus_req <= '0';
 	mux_output <= "00";
@@ -296,6 +297,9 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				next_error_state <= memory_error;
 			else -- Se procede a una transferencia de bloque
 				inc_m <= '1'; -- Se incrementa el número de misses
+				if (RE = '1') then -- Incrementar número de read misses
+					inc_rm <= '1'; -- Se incrementa el número de misses
+				end if;
 				next_state <= bring_block_data; 
 			end if;
 

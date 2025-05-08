@@ -17,11 +17,11 @@
 ;; Carga de atributos de la MD:
 lw r0, 0(r0); @0x0000 (cargar el valor 1)
             ; READ MISS OBLIGATORIO -> VIA 0 SET 0 
-lw r1, 4(r0); @0x0004 (cargar el valor 2)
+lw r1, 4(r9); @0x0004 (cargar el valor 2)
              ; READ HIT -> VIA 0 SET 0 
-lw r2, 8(r0); @0x0008 (cargar el valor 3)
+lw r2, 8(r9); @0x0008 (cargar el valor 3)
              ; READ HIT -> VIA 0 SET 0 
-lw r3, 12(r0); @0x000C (cargar el valor 4)
+lw r3, 12(r9); @0x000C (cargar el valor 4)
                  ; READ HIT -> VIA 0 SET 0 
 add r4, r3, r3; @0x0010
 add r4, r4, r4; @0x0014 (r4 = 4*4 = 16)
