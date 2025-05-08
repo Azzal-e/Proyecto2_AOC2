@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
--- Description: La memoria cache está compuesta de 8 bloques de 4 datos con: asociatividad 2, escritura directa, y la politica convencional en fallo de escritura (fetch on write miss). 
+-- Description: La memoria cache estï¿½ compuesta de 8 bloques de 4 datos con: asociatividad 2, escritura directa, y la politica convencional en fallo de escritura (fetch on write miss). 
 --
 -- Dependencies: 
 --
@@ -37,7 +37,7 @@ entity MC_datos is port (
 			-- outputs
 			ready : out  std_logic;  -- indicates whether we can perform the requested operation in the current cycle
 			Dout : out std_logic_vector (31 downto 0); -- dato output
-			-- Nueva señal de error
+			-- Nueva seï¿½al de error
 			Mem_ERROR: out std_logic; -- Activated if the slave did not respond to your address during the last transfer.
 			-- bus interface
 			-- inputs
@@ -86,7 +86,7 @@ component UC_MC is
 		MC_bus_Fetch_inc : out  STD_LOGIC; --  to request a Fetch_inc
 		MC_tags_WE : out  STD_LOGIC; -- to update the tags memory 
         palabra : out  STD_LOGIC_VECTOR (1 downto 0);--indicates the current word in a block transfer (first, second...)
-        mux_origen: out STD_LOGIC; -- Used to choose whether the origin of the word address and the data is the Mips (when 0) or the Control Unit (UC) or the bus (when 1).
+        mux_origen: out STD_LOGIC_VECTOR (1 downto 0); -- Used to choose whether the origin of the word address and the data is the Mips (when 0) or the Control Unit (UC) or the bus (when 1).
 		block_addr : out  STD_LOGIC; -- indicates whether the address to be sent is the block address or the word address 
 		mux_output: out  std_logic_vector(1 downto 0); -- to choose whether to send to the processor the MC output (value 0), the data on the bus (value 1), or an internal register (value 2).
 		-- MC Profiling counters
@@ -107,7 +107,14 @@ component UC_MC is
         MC_send_data : out  STD_LOGIC; -- orders to send the data
         Frame : out  STD_LOGIC; -- indicates that the operation has not been completed 
         last_word : out  STD_LOGIC; -- indicates that it is the last data of the transfer.
-        Bus_req :  out  STD_LOGIC -- indicates a request to use the bus
+        Bus_req :  out  STD_LOGIC; -- indicates a request to use the bus
+
+		-- Modificaciones
+		registro_hit_output : in STD_LOGIC;
+		-- no necesito sacar el hit porque ya viene de ahi.
+		load_registros : out STD_LOGIC;
+		bufferizado : out STD_LOGIC
+
 			);
 end component;
 
@@ -159,7 +166,7 @@ end component;
 
 signal dir_cjto: std_logic_vector(1 downto 0); -- to select the set
 signal dir_word: std_logic_vector(1 downto 0); -- to select the word
-signal mux_origen, MC_Tags_WE, block_addr, new_block: std_logic;
+signal MC_Tags_WE, block_addr, new_block: std_logic;
 signal via_2_rpl, Tags_WE_via0, Tags_WE_via1,hit0, hit1, WE_via0, WE_via1: std_logic;
 signal palabra_UC: std_logic_vector(1 downto 0); --  is used when bringing a new block to the MC (it changes value to bring all words).
 signal MC_Din, MC_Dout, Dout_via1, Dout_via0, Addr_Error, Internal_MC_Bus_ADDR: std_logic_vector (31 downto 0);
@@ -167,24 +174,32 @@ signal Tag: std_logic_vector(25 downto 0);
 signal m_count, w_count, r_count, inv_count: std_logic_vector(7 downto 0); 
 signal inc_m, inc_w, inc_r, inc_inv : std_logic;
 signal addr_non_cacheable, internal_addr, load_addr_error, unaligned, Mem_ready : std_logic;
-signal mux_output: std_logic_vector(1 downto 0); 
+signal mux_output, mux_origen: std_logic_vector(1 downto 0); 
 signal invalidate_bit: STD_LOGIC; -- To invalidate the block after a fetch_inc
+-- modificaciones
+signal load_registros, bufferizado, bit_hit_output: std_logic;
+signal registro_hit_output, hit : std_logic_vector(0 downto 0);
+signal registro_addr_output, registro_dato_output: std_logic_vector(31 downto 0);
+signal Internal_MC_Bus_ADDR_Registro : std_logic_vector(31 downto 0);
+
 begin
  -------------------------------------------------------------------------------------------------- 
  -- MC_data: RAM memory that stores 8 blocks of 4 data 
  -- dir palabra: can come from the input (when searching for data requested by the Mips) or from the Control Unit, CU, (when a new block is being written).  
  -------------------------------------------------------------------------------------------------- 
- -- the region beginning with “00010000000000000000000” is defined as non-cacheable.
+ -- the region beginning with ï¿½00010000000000000000000ï¿½ is defined as non-cacheable.
  -- Addresses in that region are sent to the MD_scratch and when it responds the result is forwarded to the processor. 
  -- Never store anything from that interval in MC
  
  addr_non_cacheable <= '1' when Addr(31 downto 8) = x"100000" else '0';
  unaligned <= '1' when Addr(1 downto 0) /= "00" else '0';
  tag <= ADDR(31 downto 6); 
- dir_word <= ADDR(3 downto 2) when (mux_origen='0') else palabra_UC;
+ dir_word <= ADDR(3 downto 2) when (mux_origen="00") else palabra_UC;
  dir_cjto <= ADDR(5 downto 4); -- associative placement (two-ways)
  -- MC data input can come from the Mips (normal access) or from the bus (MC miss).
- MC_Din <= Din when (mux_origen='0') else MC_bus_Din;
+ MC_Din <= 	Din when mux_origen="00" else
+ 			MC_bus_Din when mux_origen = "01" else
+			registro_dato_output;
 
 Via_0: Via generic map (num_via => 0)PORT MAP(clk => clk, reset => reset, WE => WE_via0, Tags_WE => Tags_WE_via0, hit => hit0, Dir_cjto => Dir_cjto, Dir_word => Dir_word, Tag => Tag, Din => MC_Din, Dout => Dout_via0,
 											  Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit);
@@ -213,7 +228,7 @@ Unidad_Control: UC_MC port map (	clk => clk, reset=> reset, RE => RE, WE => WE, 
 									block_addr => block_addr, MC_send_data => MC_send_data, Frame => MC_Frame, via_2_rpl => via_2_rpl, last_word => MC_last_word,
 									addr_non_cacheable => addr_non_cacheable, mux_output=> mux_output, Bus_grant => MC_Bus_grant, Bus_req => MC_Bus_req,
 									internal_addr => internal_addr, unaligned => unaligned, Mem_ERROR => Mem_ERROR, inc_m => inc_m, inc_w => inc_w, 
-									inc_r => inc_r, inc_inv => inc_inv, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit);  
+									inc_r => inc_r, inc_inv => inc_inv, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit, registro_hit_output => bit_hit_output, load_registros => load_registros, bufferizado => bufferizado);  
 --------------------------------------------------------------------------------------------------
 ----------- Event counters
 -------------------------------------------------------------------------------------------------- 
@@ -232,8 +247,13 @@ cont_inv: counter generic map (size => 8)
 -- If it is a write, the address of the word is sent, and if it is a miss, the address of the block that caused the miss.
 Internal_MC_Bus_ADDR <= 	ADDR(31 downto 2)&"00" when block_addr ='0' else 
 							ADDR(31 downto 4)&"0000"; 
--- the “internal” signal is used to read it, because MC_Bus_ADDR is an output signal and cannot be read.
-MC_Bus_ADDR <= Internal_MC_Bus_ADDR;
+
+-- Modificacion
+Internal_MC_Bus_ADDR_Registro <= 	registro_addr_output(31 downto 2)&"00" when block_addr ='0' else 
+									registro_addr_output(31 downto 4)&"0000"; 
+-- the ï¿½internalï¿½ signal is used to read it, because MC_Bus_ADDR is an output signal and cannot be read.
+MC_Bus_ADDR <= 	Internal_MC_Bus_ADDR when ( bufferizado = '0' ) else 
+				Internal_MC_Bus_ADDR_Registro;
 									 
 MC_Bus_data_out <= 	Din when (addr_non_cacheable = '1') else
 					MC_Dout; -- is used to send the data to be written
@@ -241,7 +261,7 @@ MC_Bus_data_out <= 	Din when (addr_non_cacheable = '1') else
 --------------------------------------------------------------------------------------------------
 -- Addr Error register
 -- When a memory access error occurs (because the requested address does not correspond to anyone) the address is stored in this register
--- Its associated address is “01000000”
+-- Its associated address is ï¿½01000000ï¿½
 --------------------------------------------------------------------------------------------------
 ADDR_Error_Reg: reg generic map (size => 32)
 					port map (	Din => Internal_MC_Bus_ADDR, clk => clk, reset => reset, load => load_addr_error, Dout => Addr_Error);
@@ -258,5 +278,19 @@ Dout <= MC_Dout when mux_output ="00" else
 		x"00000000";
 
 ready <= Mem_ready;		
-		
+
+
+Registro_addr: reg generic map (size => 32)
+					port map ( Din => ADDR, clk => clk, reset => reset, load => load_registros, Dout => registro_addr_output);
+hit(0) <= hit0 or hit1;
+bit_hit_output <= registro_hit_output(0);
+Registro_hit: reg generic map (size => 1)
+					port map ( Din => hit, clk => clk, reset => reset, load => load_registros, Dout => registro_hit_output);
+Registro_dato: reg generic map (size => 32)
+					port map ( Din => Din, clk => clk, reset => reset, load => load_registros, Dout => registro_dato_output);
+
+
+
+
+
 end Behavioral;
