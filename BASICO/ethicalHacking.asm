@@ -2,7 +2,7 @@
 ;; Para ello, se van a saturar todos los conjuntos de ambas vías de la memoria cahce
 ;; Se escogeran 4 bloques por conjunto, los cuales se irán cargando sucesivamente. De este
 ;; modo, los pares de bloques se irán expulsando entre sí de la cache sin dar opción a 
-;; que se de si quiera un hit.
+;; que se de siquiera un hit.
 
 ;; Contenido de la MD inicial:
 ;; 1, 2, 3, 4

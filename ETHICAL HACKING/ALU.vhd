@@ -33,7 +33,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity ALU is
     Port ( DA : in  STD_LOGIC_VECTOR (31 downto 0); --entrada 1
            DB : in  STD_LOGIC_VECTOR (31 downto 0); --entrada 2
-           ALUctrl : in  STD_LOGIC_VECTOR (2 downto 0); -- función a realizar: 0 suma, 1 resta, 2 AND, 3 OR. El resto se dejan por si queremos añadir operaciones
+           ALUctrl : in  STD_LOGIC_VECTOR (2 downto 0); -- funciï¿½n a realizar: 0 suma, 1 resta, 2 AND, 3 OR. El resto se dejan por si queremos aï¿½adir operaciones
            Dout : out  STD_LOGIC_VECTOR (31 downto 0)); -- salida
 end ALU;
 

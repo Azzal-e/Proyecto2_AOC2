@@ -1,7 +1,7 @@
 lw r0, 0(r0)
-lw r1, 4(r0)
-lw r2, 8(r0)
-lw r3, 12(r0)
+lw r1, 4(r9)
+lw r2, 8(r9)
+lw r3, 12(r9)
 add r4, r3, r3
 add r4, r4, r4
 add r5, r0, r5 

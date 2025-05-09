@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
--- Description: La memoria cache est· compuesta de 8 bloques de 4 datos con: asociatividad 2, escritura directa, y la politica convencional en fallo de escritura (fetch on write miss). 
+-- Description: La memoria cache estÔøΩ compuesta de 8 bloques de 4 datos con: asociatividad 2, escritura directa, y la politica convencional en fallo de escritura (fetch on write miss). 
 --
 -- Dependencies: 
 --
@@ -37,7 +37,7 @@ entity MC_datos is port (
 			-- outputs
 			ready : out  std_logic;  -- indicates whether we can perform the requested operation in the current cycle
 			Dout : out std_logic_vector (31 downto 0); -- dato output
-			-- Nueva seÒal de error
+			-- Nueva seÔøΩal de error
 			Mem_ERROR: out std_logic; -- Activated if the slave did not respond to your address during the last transfer.
 			-- bus interface
 			-- inputs
@@ -95,6 +95,8 @@ component UC_MC is
 		inc_r : out STD_LOGIC; -- increment number of MC reads
 		-- New
 		inc_inv :out STD_LOGIC; -- increment number of invalidations
+		-- ETHICAL HACKING
+		inc_rm : out STD_LOGIC; -- increment number of read misses
 		-- Error management
 		unaligned: in STD_LOGIC; -- indicates that the address requested by the MIPS is not aligned.
 		Mem_ERROR: out std_logic; -- Activated if the server did not respond to your address during the last transfer.
@@ -164,17 +166,19 @@ signal via_2_rpl, Tags_WE_via0, Tags_WE_via1,hit0, hit1, WE_via0, WE_via1: std_l
 signal palabra_UC: std_logic_vector(1 downto 0); --  is used when bringing a new block to the MC (it changes value to bring all words).
 signal MC_Din, MC_Dout, Dout_via1, Dout_via0, Addr_Error, Internal_MC_Bus_ADDR: std_logic_vector (31 downto 0);
 signal Tag: std_logic_vector(25 downto 0); 
-signal m_count, w_count, r_count, inv_count: std_logic_vector(7 downto 0); 
-signal inc_m, inc_w, inc_r, inc_inv : std_logic;
+signal m_count, w_count, r_count, inv_count, rm_count: std_logic_vector(7 downto 0); 
+signal inc_m, inc_w, inc_r, inc_inv, inc_rm : std_logic;
 signal addr_non_cacheable, internal_addr, load_addr_error, unaligned, Mem_ready : std_logic;
 signal mux_output: std_logic_vector(1 downto 0); 
 signal invalidate_bit: STD_LOGIC; -- To invalidate the block after a fetch_inc
+signal mayor_25: std_logic; -- To indicate that the number of read misses is greater than 25.
+signal mc_ineficiente: std_logic; -- Para indicar cache ineficiente
 begin
  -------------------------------------------------------------------------------------------------- 
  -- MC_data: RAM memory that stores 8 blocks of 4 data 
  -- dir palabra: can come from the input (when searching for data requested by the Mips) or from the Control Unit, CU, (when a new block is being written).  
  -------------------------------------------------------------------------------------------------- 
- -- the region beginning with ì00010000000000000000000î is defined as non-cacheable.
+ -- the region beginning with ÔøΩ00010000000000000000000ÔøΩ is defined as non-cacheable.
  -- Addresses in that region are sent to the MD_scratch and when it responds the result is forwarded to the processor. 
  -- Never store anything from that interval in MC
  
@@ -213,7 +217,7 @@ Unidad_Control: UC_MC port map (	clk => clk, reset=> reset, RE => RE, WE => WE, 
 									block_addr => block_addr, MC_send_data => MC_send_data, Frame => MC_Frame, via_2_rpl => via_2_rpl, last_word => MC_last_word,
 									addr_non_cacheable => addr_non_cacheable, mux_output=> mux_output, Bus_grant => MC_Bus_grant, Bus_req => MC_Bus_req,
 									internal_addr => internal_addr, unaligned => unaligned, Mem_ERROR => Mem_ERROR, inc_m => inc_m, inc_w => inc_w, 
-									inc_r => inc_r, inc_inv => inc_inv, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit);  
+									inc_r => inc_r, inc_inv => inc_inv, inc_rm => inc_rm, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit);  
 --------------------------------------------------------------------------------------------------
 ----------- Event counters
 -------------------------------------------------------------------------------------------------- 
@@ -226,13 +230,23 @@ cont_r: counter generic map (size => 8)
 cont_inv: counter generic map (size => 8)
 		port map (clk => clk, reset => reset, count_enable => inc_inv, count => inv_count);
 
+-- CONTADORES ADICIONALES PARA ETHICAL HACKING
+cont_readMisses: counter generic map (size => 8) -- Cuenta fallos en lectura
+		port map (clk => clk, reset => reset, count_enable => inc_rm, count => rm_count);
+-- Se√±al que se activa cuando  el n√∫mero de misses es mayor que 25.
+
+mayor_25 <= '1' when (m_count > x"19") else '0'; 
+
+-- Se√±al que se activa cuando el n√∫mero de misses es mayor que 25 y la MC es est√° por debajo del umbral de eficiencia
+
+mc_ineficiente <= '1' when (mayor_25 = '1') and (unsigned(m_count) > (unsigned(r_count)-unsigned(rm_count))) else '0';
 --------------------------------------------------------------------------------------------------
 ----------- Bus outputs
 -------------------------------------------------------------------------------------------------- 
 -- If it is a write, the address of the word is sent, and if it is a miss, the address of the block that caused the miss.
 Internal_MC_Bus_ADDR <= 	ADDR(31 downto 2)&"00" when block_addr ='0' else 
 							ADDR(31 downto 4)&"0000"; 
--- the ìinternalî signal is used to read it, because MC_Bus_ADDR is an output signal and cannot be read.
+-- the ÔøΩinternalÔøΩ signal is used to read it, because MC_Bus_ADDR is an output signal and cannot be read.
 MC_Bus_ADDR <= Internal_MC_Bus_ADDR;
 									 
 MC_Bus_data_out <= 	Din when (addr_non_cacheable = '1') else
@@ -241,7 +255,7 @@ MC_Bus_data_out <= 	Din when (addr_non_cacheable = '1') else
 --------------------------------------------------------------------------------------------------
 -- Addr Error register
 -- When a memory access error occurs (because the requested address does not correspond to anyone) the address is stored in this register
--- Its associated address is ì01000000î
+-- Its associated address is ÔøΩ01000000ÔøΩ
 --------------------------------------------------------------------------------------------------
 ADDR_Error_Reg: reg generic map (size => 32)
 					port map (	Din => Internal_MC_Bus_ADDR, clk => clk, reset => reset, load => load_addr_error, Dout => Addr_Error);
