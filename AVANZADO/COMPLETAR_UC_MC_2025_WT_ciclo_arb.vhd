@@ -394,8 +394,10 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			Bus_req <= '1';
 			if (Bus_grant = '1' and registro_hit_output = '0') then
 				next_state <= write_md_send_block_addr;
-			else 
+			elsif (Bus_grant = '1' and registro_hit_output = '1')
 				next_state <= write_md_send_word_addr;
+			else
+				next_state <= write_md;
 			end if;
 			-- logica apartado opcional:
 			if (RE = '1' and (hit = '1' or internal_addr = '1')) then
