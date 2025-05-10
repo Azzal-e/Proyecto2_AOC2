@@ -466,7 +466,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 					MC_WE0 <= '1';
 				end if;
 			elsif (Bus_TRDY = '1' and last_word_block = '1') then -- Caso en el que se ha traido la última palabra del bloque
-				if ((Hit0 = '1' and via_2_rpl = 1) or (Hit1 = '1' and via_2_rpl = 0)) then
+				if ((Hit0 = '1' and via_2_rpl = '1') or (Hit1 = '1' and via_2_rpl = '0')) then
 					inc_w <= '1'; -- Nueva escritura sobre MC
 					count_enable <= '1'; -- Se avanza a nueva palabra de bloque (reseteo)
 					ready <= '0'; -- En ningún caso se debe indicar a MIPS que la operación a terminado.
