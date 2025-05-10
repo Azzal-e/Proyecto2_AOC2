@@ -252,10 +252,12 @@ Internal_MC_Bus_ADDR <= 	ADDR(31 downto 2)&"00" when block_addr ='0' else
 Internal_MC_Bus_ADDR_Registro <= 	registro_addr_output(31 downto 2)&"00" when block_addr ='0' else 
 									registro_addr_output(31 downto 4)&"0000"; 
 -- the �internal� signal is used to read it, because MC_Bus_ADDR is an output signal and cannot be read.
-MC_Bus_ADDR <= 	Internal_MC_Bus_ADDR when ( bufferizado = '0' ) else 
+MC_Bus_ADDR <= 	Internal_MC_Bus_ADDR when ( bufferizado = '0') else 
 				Internal_MC_Bus_ADDR_Registro;
-									 
+						
+-- Modificado
 MC_Bus_data_out <= 	Din when (addr_non_cacheable = '1') else
+					registro_dato_output when (bufferizado = '1') else
 					MC_Dout; -- is used to send the data to be written
 
 --------------------------------------------------------------------------------------------------

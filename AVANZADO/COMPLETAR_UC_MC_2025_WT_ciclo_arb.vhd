@@ -89,7 +89,6 @@ entity UC_MC is
         Bus_req :  out  STD_LOGIC; -- indicates a bus request to the arbiter
 		-- Modificaciones
 		registro_hit_output : in STD_LOGIC;
-		-- no necesito sacar el hit porque ya viene de ahi.
 		load_registros : out STD_LOGIC;
 		bufferizado : out STD_LOGIC
 	);
@@ -195,6 +194,10 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 	load_registros <= '0';
 
         -- Inicio state          
+
+	---------------------------------------------------------------------	
+	--   UC con extensión del primer apartado opcional (+5 estados)    --
+	---------------------------------------------------------------------
     CASE state is 
 		when Inicio => 
 			If (RE = '0' and WE = '0' and Fetch_inc = '0') then -- if Mips ask for nothing, we do nothing
@@ -216,9 +219,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				ready <= '1';
 				next_error_state <= memory_error; -- Attempt to write a read-only internal register
 				load_addr_error <= '1';
-			--elsif (Fetch_inc= '1') then -- fetch_inc 
 			-- EL MIPS SOLO LEVANTA LA SEÑAL FETCH_INC PARA EL CASO DE LW_INC, NO RE
-			-- TODO ZANOS <CASO EN EL QUE VAS A INTERACCIONAR CON EL BUS>
 			elsif (WE = '1' and addr_non_cacheable = '0') then
 				load_registros <= '1';
 				Bus_req <= '1';
@@ -247,11 +248,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				ready <= '1';
 				inc_r <= '1'; -- MC read
 				mux_output <= "00"; -- This is the default value. There is no need to set it. The output is a data stored in the MC
-			--elsif (WE= '1' and  hit='1') then -- write hit
-			---COMPLETE:
-				
-			--elsif (hit='0') then  -- if the MIPS asks for a well aligned memory @ and it is not a hit or access to a register
-				--COMPLETE:
 			end if;
 	-- COMPLETE  
 		when single_word_transfer_addr =>
@@ -302,7 +298,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 
 		when block_transfer_addr =>
 			-- Nótese que en el presente caso una transferencia de bloque siempre corresponderá a una lectura de bloque para cargarlo en la cache -> MISS
-
 			Frame  <= '1';
 			MC_send_addr_ctrl <= '1';
 			MC_bus_read <= '1'; -- Siempre será operación de lectura de bloque
@@ -325,7 +320,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			MC_send_data <= '1'; -- Bus multiplexado. El master debe indicar que se están transfiriendo datos
 			mux_origen <= "00"; -- Solo se transfiere una palabra, la cual además siempre viene del MIPS
 
-			-- TODO ZANOS ESTO MIRAR
 			last_word <= '1';
 
 			if (bus_TRDY = '0') then -- La MD o MD_scratch no han podido efectuar la escritura de la palabra en el presente ciclo
@@ -339,8 +333,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 		when bring_single_word_data =>
 			-- Caso de traer a MIPS una sola palabra del bus.
 			Frame <= '1';
-			--MC_bus_Fetch_inc <= Fetch_inc;
-			-- TODO ZANOS ESTO MIRAR
 			last_word <= '1';
 			
 			if (bus_TRDY = '0') then -- La MD o MD_scratch no han podido efectuar la lectura de la palabra en el presente ciclo
@@ -394,7 +386,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			Bus_req <= '1';
 			if (Bus_grant = '1' and registro_hit_output = '0') then
 				next_state <= write_md_send_block_addr;
-			elsif (Bus_grant = '1' and registro_hit_output = '1')
+			elsif (Bus_grant = '1' and registro_hit_output = '1') then
 				next_state <= write_md_send_word_addr;
 			else
 				next_state <= write_md;
@@ -508,6 +500,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			if (bus_TRDY = '0') then -- La MD o MD_scratch no han podido efectuar la escritura de la palabra en el presente ciclo
 				next_state <= write_md_send_word;
 			else -- Solo había una palabra por transferir, por lo que la transferencia ha terminado
+				bufferizado <= '1';
 				next_state <= Inicio;
 			end if;
 			--logica apartado opcional:
