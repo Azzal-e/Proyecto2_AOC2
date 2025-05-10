@@ -185,7 +185,11 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 	load_addr_error <= '0';
 	invalidate_bit <= '0';
         -- Inicio state 
-	-- UC BUENA, PARA LA ENTREGA.         
+
+
+	-----------------------------------------------------------------------	
+    --		UC QUE CONTROLA LA MC E INTERACCIÓN DE ESTA CON EL BUS       --
+	-----------------------------------------------------------------------       
     CASE state is 
 		when Inicio => 
 			If (RE = '0' and WE = '0' and Fetch_inc = '0') then -- if Mips ask for nothing, we do nothing
@@ -207,9 +211,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				ready <= '1';
 				next_error_state <= memory_error; -- Attempt to write a read-only internal register
 				load_addr_error <= '1';
-			--elsif (Fetch_inc= '1') then -- fetch_inc 
 			-- EL MIPS SOLO LEVANTA LA SEÑAL FETCH_INC PARA EL CASO DE LW_INC, NO RE
-			-- TODO ZANOS <CASO EN EL QUE VAS A INTERACCIONAR CON EL BUS>
 			elsif ((((RE = '1' and hit = '0') or (Fetch_inc = '1') or (WE = '1')) AND addr_non_cacheable = '0') OR (((RE = '1') or (Fetch_inc = '1') or (WE = '1')) and addr_non_cacheable = '1')) then -- si involucra alguna operación que tenga que hacer uso del bus
 				Bus_req <= '1'; 
 				if(Bus_grant = '1') then -- Bus_grant puede ser levantado en el mismo ciclo
@@ -227,11 +229,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				ready <= '1';
 				inc_r <= '1'; -- MC read
 				mux_output <= "00"; -- This is the default value. There is no need to set it. The output is a data stored in the MC
-			--elsif (WE= '1' and  hit='1') then -- write hit
-			---COMPLETE:
-				
-			--elsif (hit='0') then  -- if the MIPS asks for a well aligned memory @ and it is not a hit or access to a register
-				--COMPLETE:
 			end if;
 	-- COMPLETE  
 		when single_word_transfer_addr =>
@@ -305,7 +302,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			MC_send_data <= '1'; -- Bus multiplexado. El master debe indicar que se están transfiriendo datos
 			mux_origen <= '0'; -- Solo se transfiere una palabra, la cual además siempre viene del MIPS
 
-			-- TODO ZANOS ESTO MIRAR
 			last_word <= '1';
 
 			if (bus_TRDY = '0') then -- La MD o MD_scratch no han podido efectuar la escritura de la palabra en el presente ciclo
@@ -319,8 +315,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 		when bring_single_word_data =>
 			-- Caso de traer a MIPS una sola palabra del bus.
 			Frame <= '1';
-			--MC_bus_Fetch_inc <= Fetch_inc;
-			-- TODO ZANOS ESTO MIRAR
 			last_word <= '1';
 			
 			if (bus_TRDY = '0') then -- La MD o MD_scratch no han podido efectuar la lectura de la palabra en el presente ciclo
@@ -371,8 +365,11 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			end if;
 	WHEN others => 
 	end CASE;
-		
-	-- UC MALA, PARA EL TEST DE INTEGRACIÓN
+	
+	-----------------------------------------------------------------------	
+	-- UC QUE DESACTIVA LA MC Y SOLO PROPAGA PARA ESCRITURA Y LECTURA    --
+	-----------------------------------------------------------------------
+
 	-- CASE state is 
 	-- 	when Inicio => 
 	-- 		If (RE = '0' and WE = '0' and Fetch_inc = '0') then -- if Mips ask for nothing, we do nothing
@@ -442,7 +439,6 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 	-- 		MC_send_data <= '1'; -- Bus multiplexado. El master debe indicar que se están transfiriendo datos
 	-- 		mux_origen <= '0'; -- Solo se transfiere una palabra, la cual además siempre viene del MIPS
 
-	-- 		-- TODO ZANOS ESTO MIRAR
 	-- 		last_word <= '1';
 
 	-- 		if (bus_TRDY = '0') then -- La MD o MD_scratch no han podido efectuar la escritura de la palabra en el presente ciclo
@@ -456,15 +452,12 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 	-- 	when bring_single_word_data =>
 	-- 		-- Caso de traer a MIPS una sola palabra del bus.
 	-- 		Frame <= '1';
-	-- 		--MC_bus_Fetch_inc <= Fetch_inc;
-	-- 		-- TODO ZANOS ESTO MIRAR
 	-- 		last_word <= '1';
 			
 	-- 		if (bus_TRDY = '0') then -- La MD o MD_scratch no han podido efectuar la lectura de la palabra en el presente ciclo
 	-- 			next_state <= bring_single_word_data;
 	-- 		else -- Solo había una palabra por transferir, por lo que la transferencia ha terminado
 	-- 			ready <= '1'; -- Se comunica al procesador que se ha procesado su petición en el siguiente ciclo
-	-- 			--last_word <= '1'; -- La MD (en su caso) debe saber que esta era la última (además de única) palabra para volver al estado de espera
 	-- 			mux_output  <= "01"; -- Siempre se envía la palabra procedente del bus
 	-- 			next_state <= Inicio;
 	-- 		end if;
