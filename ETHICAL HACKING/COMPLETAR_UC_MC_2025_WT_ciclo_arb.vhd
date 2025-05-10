@@ -275,6 +275,10 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				next_state <= Inicio;
 				next_error_state <= memory_error;
 			else -- Dirección reconocida, pasa al estado de enviar o traer una sola palabra
+				if (addr_non_cacheable = '0' and MC_desactivada = '0') then -- Si la cache está desactivada y se lleva a cabo un acceso a MD, hay que contabilizarlo
+					inc_accMd <= '1';
+				end if;
+	
 				if (WE = '1' and addr_non_cacheable = '1') then -- Escritura sobre MD_scratch
 					next_state <= send_single_word_data;
 				elsif (WE = '1' and hit = '1' and addr_non_cacheable = '0') then-- CASO DE ESCRITURA SOBRE MD : WRITE THROUGH
@@ -286,12 +290,17 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 						MC_WE0 <= hit0;
 						MC_WE1 <= hit1;
 					end if;
+				elsif(RE = '1' and hit = '1' and addr_non_cacheable = '0') then -- CASO DE LECTURA SOBRE MD : HIT
+					inc_r <= '1'; -- Se incrementa el número de lecturas
+					next_state <= bring_single_word_data; 
 				elsif( (RE = '1' or WE = '1') and hit = '0' and addr_non_cacheable = '0' and MC_desactivada = '1') then -- CASO DE MISS CON CACHE DESACTIVADA. CONTAR!!
 				    inc_m <= '1'; -- Se incrementa el número de misses
 					if (RE = '1') then -- Incrementar número de read misses
 						inc_rm <= '1'; -- Se incrementa el número de misses
+						inc_r <= '1'; -- Se incrementa el número de lecturas (CORRESPONDE AL HIT QUE SE DARÍA POSTERIORMENTE)
 						next_state <= bring_single_word_data;
 					else
+					    inc_w <= '1'; -- Realmente aquí sería mejor introducir un mecanismo para incrementar en 4 (las 4 palabras del bloque), pero no afecta al cálculo del umbral de eficiencia)
 						next_state <= send_single_word_data;
 					end if;
 				elsif ( ((RE = '1' OR Fetch_inc = '1') AND addr_non_cacheable = '1') OR (Fetch_inc = '1' and hit = '0' and addr_non_cacheable = '0')) then -- caso de lectura sobre MD_scratch o lw_inc sobre MD que que no necesita invalidar MC
@@ -364,7 +373,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				--last_word <= '1'; -- La MD (en su caso) debe saber que esta era la última (además de única) palabra para volver al estado de espera
 				mux_output  <= "01"; -- Siempre se envía la palabra procedente del bus
 				next_state <= Inicio;
-				if(RE = '1' and addr_non_cacheable = '0' and MC_desactivada= '1') then -- Se procede a actualizar los tags de la caché, tal como se haría en un caso normal
+				if(RE = '1' and hit = '0' and addr_non_cacheable = '0' and MC_desactivada= '1') then -- Se procede a actualizar los tags de la caché, tal como se haría en un caso normal
 					MC_tags_WE <= '1';
 				end if;
 			end if;

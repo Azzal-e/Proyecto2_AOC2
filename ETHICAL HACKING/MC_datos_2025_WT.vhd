@@ -281,7 +281,8 @@ accMd_mayor_15 <= '1' when (accMD_count > x"0F") else '0'; -- Se activa cuando e
 reset_cont_accMD <= '1' when (cambiar_Estado_cache = '1' and MC_desactivada="0") or reset = '1' else '0'; -- Se resetea el contador de accesos a MD cada vez que se vuelve a activar la MC
 -- Señal que se activa cuando la MC es está por debajo del umbral de eficiencia
 
-mc_ineficiente <= "1" when (unsigned(m_count_mirror) > (unsigned(r_count_mirror)-unsigned(rm_count))) else "0";
+mc_ineficiente <= "1" when unsigned(m_count_mirror) > 
+    ( (unsigned(r_count_mirror) - unsigned(rm_count)) * 115) / 100 else "0";
 
 -- Señal para gestionar un cambio de estado retardado
 cambiar_Estado_cache <= '1' when ((MC_desactivada = "0" and mc_ineficiente = "1" and mayor_25 = '1') or (MC_desactivada = "1" and mc_ineficiente = "0" and accMd_mayor_15 = '1')) and (mem_ready = '1') else '0'; -- Se espera a que el acceso a memoria se termine con mem_ready = '1' para evitar transiciones en medio de transferencias.
