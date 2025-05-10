@@ -465,20 +465,22 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				else
 					MC_WE0 <= '1';
 				end if;
-			elsif (Bus_TRDY = '1' and last_word_block = '1') then -- Caso en el que se ha traido la última palabra del bloque
-				inc_w <= '1'; -- Nueva escritura sobre MC
-				count_enable <= '1'; -- Se avanza a nueva palabra de bloque (reseteo)
-				ready <= '0'; -- En ningún caso se debe indicar a MIPS que la operación a terminado.
-							-- En caso de RE, se volverá al estado inicial y allí se producirá el hit
-							-- En caso de WE, se procede a llevar a cabo la escritura de palabra WRITE THROUGH
+			elsif (Bus_TRDY = '1' and last_word_block = '1' and ) then -- Caso en el que se ha traido la última palabra del bloque
+				if ((Hit0 = '1' and via_2_rpl = 1) or (Hit1 = '1' and via_2_rpl = 0))
+					inc_w <= '1'; -- Nueva escritura sobre MC
+					count_enable <= '1'; -- Se avanza a nueva palabra de bloque (reseteo)
+					ready <= '0'; -- En ningún caso se debe indicar a MIPS que la operación a terminado.
+								-- En caso de RE, se volverá al estado inicial y allí se producirá el hit
+								-- En caso de WE, se procede a llevar a cabo la escritura de palabra WRITE THROUGH
 
-				if (via_2_rpl = '1') then -- Sustituir via 1 
-					MC_WE1 <= '1';
-				else
-					MC_WE0 <= '1';
-				end if;
-				MC_tags_WE <= '1'; -- Se sobreescribe el tag de la caché con el del nuevo bloque a cargar 
-				next_state <= write_md_send_word_addr; -- Como last_word = 1 y MD ha efectuado el envío de la última palabra, el controlador de la MD la llevará a estado de espera para aceptar una nueva transferencia.
+					if (via_2_rpl = '1') then -- Sustituir via 1 
+						MC_WE1 <= '1';
+					else
+						MC_WE0 <= '1';
+					end if;
+					MC_tags_WE <= '1'; -- Se sobreescribe el tag de la caché con el del nuevo bloque a cargar 
+					next_state <= write_md_send_word_addr; -- Como last_word = 1 y MD ha efectuado el envío de la última palabra, el controlador de la MD la llevará a estado de espera para aceptar una nueva transferencia.
+				end if;	
 			end if;
 			-- logica apartado opcional:
 			if (RE = '1' and (hit = '1' or internal_addr = '1')) then
