@@ -220,7 +220,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				Bus_req <= '1'; 
 				if(Bus_grant = '1') then -- Bus_grant puede ser levantado en el mismo ciclo
 					if ( (RE = '1' or WE = '1') and hit = '0' and addr_non_cacheable = '0' and MC_desactivada = '0' ) then -- CASO de miss: Se debe traer un BLOQUE (lw_inc tiene tratamiento especial, de ahí que no se incluya)
-						                                                                                                   -- NUEVO!! Para cargar un bloque la cache debe estar activada. Si no lo está, transferencia de palabra con set duelling (actualizar tags)
+						                                                                                                   -- NUEVO!! Para cargar un bloque la cache debe estar activada. Si no lo está, transferencia de palabra con ghost cache (actualizar tags)
 						next_state <= block_transfer_addr;
 					else  -- En otro caso, será una tranferencia de palabra, bien sea con MD_scratch o con MD (y lectura o escritura)
 						next_state <= single_word_transfer_addr;
@@ -275,7 +275,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				next_state <= Inicio;
 				next_error_state <= memory_error;
 			else -- Dirección reconocida, pasa al estado de enviar o traer una sola palabra
-				if (addr_non_cacheable = '0' and MC_desactivada = '0') then -- Si la cache está desactivada y se lleva a cabo un acceso a MD, hay que contabilizarlo
+				if (addr_non_cacheable = '0' and MC_desactivada = '1') then -- Si la cache está desactivada y se lleva a cabo un acceso a MD, hay que contabilizarlo
 					inc_accMd <= '1';
 				end if;
 	
@@ -290,7 +290,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 						MC_WE0 <= hit0;
 						MC_WE1 <= hit1;
 					end if;
-				elsif(RE = '1' and hit = '1' and addr_non_cacheable = '0') then -- CASO DE LECTURA SOBRE MD : HIT
+				elsif(RE = '1' and hit = '1' and addr_non_cacheable = '0' and MC_desactivada = '1') then -- CASO DE LECTURA SOBRE MD : HIT
 					inc_r <= '1'; -- Se incrementa el número de lecturas
 					next_state <= bring_single_word_data; 
 				elsif( (RE = '1' or WE = '1') and hit = '0' and addr_non_cacheable = '0' and MC_desactivada = '1') then -- CASO DE MISS CON CACHE DESACTIVADA. CONTAR!!
@@ -354,7 +354,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				ready <= '1'; -- Se comunica al procesador que se ha procesado su petición en el siguiente ciclo
 				--last_word <= '1'; -- La MD (en su caso) debe saber que esta era la última (además de única) palabra para volver al estado de espera
 				next_state <= Inicio;
-				if(WE = '1' and addr_non_cacheable = '0' and MC_desactivada= '1') then -- Se procede a actualizar los tags de la caché, tal como se haría en un caso normal
+				if(WE = '1' and addr_non_cacheable = '0' and MC_desactivada= '1' and hit = '0') then -- Se procede a actualizar los tags de la caché, tal como se haría en un caso normal
 					MC_tags_WE <= '1';
 				end if;
 			end if;

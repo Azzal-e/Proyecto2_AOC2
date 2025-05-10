@@ -229,7 +229,7 @@ Unidad_Control: UC_MC port map (	clk => clk, reset=> reset, RE => RE, WE => WE, 
 									block_addr => block_addr, MC_send_data => MC_send_data, Frame => MC_Frame, via_2_rpl => via_2_rpl, last_word => MC_last_word,
 									addr_non_cacheable => addr_non_cacheable, mux_output=> mux_output, Bus_grant => MC_Bus_grant, Bus_req => MC_Bus_req,
 									internal_addr => internal_addr, unaligned => unaligned, Mem_ERROR => Mem_ERROR, inc_m => inc_m, inc_w => inc_w, 
-									inc_r => inc_r, inc_inv => inc_inv, inc_rm => inc_rm, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit, MC_desactivada => MC_desactivada_logical);  
+									inc_r => inc_r, inc_inv => inc_inv, inc_rm => inc_rm,inc_accMd =>inc_accMd, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit, MC_desactivada => MC_desactivada_logical);  
 --------------------------------------------------------------------------------------------------
 ----------- Event counters
 -------------------------------------------------------------------------------------------------- 
@@ -302,7 +302,7 @@ Internal_MC_Bus_ADDR <= 	ADDR(31 downto 2)&"00" when block_addr ='0' else
 -- the �internal� signal is used to read it, because MC_Bus_ADDR is an output signal and cannot be read.
 MC_Bus_ADDR <= Internal_MC_Bus_ADDR;
 									 
-MC_Bus_data_out <= 	Din when (addr_non_cacheable = '1') else
+MC_Bus_data_out <= 	Din when (addr_non_cacheable = '1' or MC_desactivada = "1") else -- NUEVO!! AHORA NO SE PUEDE ESCRIBIR SIEMPRE EN CACHE
 					MC_Dout; -- is used to send the data to be written
 
 --------------------------------------------------------------------------------------------------
