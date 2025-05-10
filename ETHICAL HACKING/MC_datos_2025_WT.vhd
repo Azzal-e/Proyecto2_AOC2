@@ -97,6 +97,8 @@ component UC_MC is
 		inc_inv :out STD_LOGIC; -- increment number of invalidations
 		-- ETHICAL HACKING
 		inc_rm : out STD_LOGIC; -- increment number of read misses
+		inc_accMd : out STD_LOGIC; -- increment number of accesses to MD with MC disabled
+		
 		-- Error management
 		unaligned: in STD_LOGIC; -- indicates that the address requested by the MIPS is not aligned.
 		Mem_ERROR: out std_logic; -- Activated if the server did not respond to your address during the last transfer.
@@ -109,8 +111,10 @@ component UC_MC is
         MC_send_data : out  STD_LOGIC; -- orders to send the data
         Frame : out  STD_LOGIC; -- indicates that the operation has not been completed 
         last_word : out  STD_LOGIC; -- indicates that it is the last data of the transfer.
-        Bus_req :  out  STD_LOGIC -- indicates a request to use the bus
-			);
+        Bus_req :  out  STD_LOGIC; -- indicates a request to use the bus
+		-- NUEVA PARA ETHICAL HACKING
+		MC_desactivada: in std_logic -- Se activa cuando la memoria caché está desactivada
+		);
 end component;
 
 component reg is
@@ -145,7 +149,9 @@ component Via is
 		  	Fetch_inc: in std_logic;
 		  	invalidate_bit: in std_logic;
 			hit : out STD_LOGIC; 
-			Dout : out std_logic_vector (31 downto 0)			
+			Dout : out std_logic_vector (31 downto 0);			
+			-- NEW: Señal para ethical hacking
+			invalidar_all: in std_logic -- Se activa cuando se quiere invalidar todos los conjuntos de la cache
 			) ;
 end component;
 
@@ -166,13 +172,19 @@ signal via_2_rpl, Tags_WE_via0, Tags_WE_via1,hit0, hit1, WE_via0, WE_via1: std_l
 signal palabra_UC: std_logic_vector(1 downto 0); --  is used when bringing a new block to the MC (it changes value to bring all words).
 signal MC_Din, MC_Dout, Dout_via1, Dout_via0, Addr_Error, Internal_MC_Bus_ADDR: std_logic_vector (31 downto 0);
 signal Tag: std_logic_vector(25 downto 0); 
-signal m_count, w_count, r_count, inv_count, rm_count: std_logic_vector(7 downto 0); 
-signal inc_m, inc_w, inc_r, inc_inv, inc_rm : std_logic;
+signal m_count, w_count, r_count, inv_count, rm_count, mPer_count, accMD_count,  m_count_mirror, w_count_mirror, r_count_mirror, inv_count_mirror : std_logic_vector(7 downto 0); -- MODIFICADO CON SEÑALES DE CONTADORES PARA ETHICAL HACKING
+signal inc_m, inc_w, inc_r, inc_inv, inc_rm, inc_accMd : std_logic;
 signal addr_non_cacheable, internal_addr, load_addr_error, unaligned, Mem_ready : std_logic;
 signal mux_output: std_logic_vector(1 downto 0); 
 signal invalidate_bit: STD_LOGIC; -- To invalidate the block after a fetch_inc
-signal mayor_25: std_logic; -- To indicate that the number of read misses is greater than 25.
-signal mc_ineficiente: std_logic; -- Para indicar cache ineficiente
+signal mayor_25, accMd_mayor_15: std_logic; -- To indicate that the number of read misses is greater than 25.
+signal mc_ineficiente: std_logic_VECTOR(0 downto 0); -- Para indicar cache ineficiente
+signal reset_mPer, reset_cont_accMd: std_logic; -- Para reseteos tras cambios de estado
+signal cambiar_Estado_cache: std_logic; -- Para indicar que se debe cambiar el estado de la cache (ACTIVADA o DESACTIVADA)
+signal MC_desactivada: std_logic_vector(0 downto 0); -- Para indicar que la cache esta desactivada
+signal invalidar_all: std_logic; -- Se activa cuando se quiere invalidar todos los conjuntos de la cache
+signal MC_desactivada_logical: std_logic; -- Para indicar que la cache esta desactivada
+signal enable_cont_m, enable_cont_w, enable_cont_r, enable_cont_inv: std_logic; -- Se activan cuando la cache esta activada y se quiere contar los accesos a MD
 begin
  -------------------------------------------------------------------------------------------------- 
  -- MC_data: RAM memory that stores 8 blocks of 4 data 
@@ -191,10 +203,10 @@ begin
  MC_Din <= Din when (mux_origen='0') else MC_bus_Din;
 
 Via_0: Via generic map (num_via => 0)PORT MAP(clk => clk, reset => reset, WE => WE_via0, Tags_WE => Tags_WE_via0, hit => hit0, Dir_cjto => Dir_cjto, Dir_word => Dir_word, Tag => Tag, Din => MC_Din, Dout => Dout_via0,
-											  Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit);
+											  Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit, invalidar_all => invalidar_all);
 
 Via_1: Via generic map (num_via => 1)PORT MAP(clk => clk, reset => reset, WE => WE_via1, Tags_WE => Tags_WE_via1, hit => hit1, Dir_cjto => Dir_cjto, Dir_word => Dir_word, Tag => Tag, Din => MC_Din, Dout => Dout_via1,
-											  Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit);
+											  Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit, invalidar_all => invalidar_all);
 
 -- We choose between the output of the two ways. We choose the output of the way 1 if there is a hit in way 1, else, way 0 is selected
 MC_Dout <= Dout_via1 when (hit1='1')  else Dout_via0;
@@ -217,29 +229,69 @@ Unidad_Control: UC_MC port map (	clk => clk, reset=> reset, RE => RE, WE => WE, 
 									block_addr => block_addr, MC_send_data => MC_send_data, Frame => MC_Frame, via_2_rpl => via_2_rpl, last_word => MC_last_word,
 									addr_non_cacheable => addr_non_cacheable, mux_output=> mux_output, Bus_grant => MC_Bus_grant, Bus_req => MC_Bus_req,
 									internal_addr => internal_addr, unaligned => unaligned, Mem_ERROR => Mem_ERROR, inc_m => inc_m, inc_w => inc_w, 
-									inc_r => inc_r, inc_inv => inc_inv, inc_rm => inc_rm, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit);  
+									inc_r => inc_r, inc_inv => inc_inv, inc_rm => inc_rm, load_addr_error => load_addr_error, Fetch_inc => Fetch_inc, invalidate_bit => invalidate_bit, MC_desactivada => MC_desactivada_logical);  
 --------------------------------------------------------------------------------------------------
 ----------- Event counters
 -------------------------------------------------------------------------------------------------- 
 cont_m: counter generic map (size => 8)
-		port map (clk => clk, reset => reset, count_enable => inc_m, count => m_count);
+		port map (clk => clk, reset => reset, count_enable => enable_cont_m, count => m_count);
+enable_cont_m <= '1' when (MC_desactivada = "0" and inc_m = '1') else '0'; -- Se activan los contadores cuando la cache esta activada
 cont_w: counter generic map (size => 8)
-		port map (clk => clk, reset => reset, count_enable => inc_w, count => w_count);
+		port map (clk => clk, reset => reset, count_enable => enable_cont_w, count => w_count);
+enable_cont_w <= '1' when (MC_desactivada = "0" and inc_w = '1') else '0'; -- Se activan los contadores cuando la cache esta activada
 cont_r: counter generic map (size => 8)
-		port map (clk => clk, reset => reset, count_enable => inc_r, count => r_count);
+		port map (clk => clk, reset => reset, count_enable => enable_cont_r, count => r_count);
+enable_cont_r <= '1' when (MC_desactivada = "0" and inc_r = '1') else '0'; -- Se activan los contadores cuando la cache esta activada
 cont_inv: counter generic map (size => 8)
-		port map (clk => clk, reset => reset, count_enable => inc_inv, count => inv_count);
+		port map (clk => clk, reset => reset, count_enable => enable_cont_inv, count => inv_count);
+enable_cont_inv <= '1' when (MC_desactivada = "0" and inc_inv = '1') else '0'; -- Se activan los contadores cuando la cache esta activada
 
--- CONTADORES ADICIONALES PARA ETHICAL HACKING
+--------------------------------------------------------------------------------------------------
+-- ELEMENTOS ADICIONALES PARA ETHICAL HACKING
+-------------------------------------------------------------------------------------------------- 
+-- Contadores "mirrors" para contar siempre. Los contadores originales sirven para conteo "oficial" (solo con cache activada)
+cont_m_mirror: counter generic map (size => 8)
+		port map (clk => clk, reset => reset, count_enable => inc_m, count => m_count_mirror);
+cont_w_mirror: counter generic map (size => 8)
+		port map (clk => clk, reset => reset, count_enable => inc_w, count => w_count_mirror);
+cont_r_mirror: counter generic map (size => 8)
+		port map (clk => clk, reset => reset, count_enable => inc_r, count => r_count_mirror);
+cont_inv_mirror: counter generic map (size => 8)
+		port map (clk => clk, reset => reset, count_enable => inc_inv, count => inv_count_mirror);
+
+
+
 cont_readMisses: counter generic map (size => 8) -- Cuenta fallos en lectura
 		port map (clk => clk, reset => reset, count_enable => inc_rm, count => rm_count);
--- Señal que se activa cuando  el número de misses es mayor que 25.
+-- Señal que se activa cuando  el número de misses es mayor que 25 desde que se accedió a este estado es mayor que 25.
 
-mayor_25 <= '1' when (m_count > x"19") else '0'; 
+mayor_25 <= '1' when (mPer_count > x"19") else '0'; 
 
--- Señal que se activa cuando el número de misses es mayor que 25 y la MC es está por debajo del umbral de eficiencia
+-- Contador de misses periódico (se resetea cada vez que se vuelve a ciclo normal):
+cont_mPer: counter generic map (size => 8)
+		port map (clk => clk, reset => reset_mPer, count_enable => inc_m, count => mPer_count);
 
-mc_ineficiente <= '1' when (mayor_25 = '1') and (unsigned(m_count) > (unsigned(r_count)-unsigned(rm_count))) else '0';
+reset_mPer <= '1' when (cambiar_Estado_cache = '1' and MC_desactivada="1") or reset = '1' else '0'; -- Se resetea el contador de misses cada vez que se vuelve a activar la MC
+
+-- Contador de accesos a MD con MC desactivada
+cont_accMDBruto: counter generic map (size => 8)
+		port map (clk => clk, reset => reset_cont_accMD, count_enable => inc_accMd, count => accMD_count);
+accMd_mayor_15 <= '1' when (accMD_count > x"0F") else '0'; -- Se activa cuando el número de accesos a MD con MC invalidada es mayor a 15
+
+reset_cont_accMD <= '1' when (cambiar_Estado_cache = '1' and MC_desactivada="0") or reset = '1' else '0'; -- Se resetea el contador de accesos a MD cada vez que se vuelve a activar la MC
+-- Señal que se activa cuando la MC es está por debajo del umbral de eficiencia
+
+mc_ineficiente <= "1" when (unsigned(m_count_mirror) > (unsigned(r_count_mirror)-unsigned(rm_count))) else "0";
+
+-- Señal para gestionar un cambio de estado retardado
+cambiar_Estado_cache <= '1' when ((MC_desactivada = "0" and mc_ineficiente = "1" and mayor_25 = '1') or (MC_desactivada = "1" and mc_ineficiente = "0" and accMd_mayor_15 = '1')) and (mem_ready = '1') else '0'; -- Se espera a que el acceso a memoria se termine con mem_ready = '1' para evitar transiciones en medio de transferencias.
+
+-- Registro con el estado de la cache
+Estado_cache: reg generic map (size => 1)
+					port map (	Din => mc_ineficiente, clk => clk, reset => reset, load => cambiar_Estado_Cache, Dout => MC_desactivada);
+MC_desactivada_logical <= MC_desactivada(0); -- Se usa para indicar que la cache esta desactivada
+-- Señal para invalidar todos los bloques de la cache mientras cuando vuelva a activarse -> resultado del set duelling
+invalidar_all <= '1' when (cambiar_Estado_cache = '1' and MC_desactivada="1") else '0'; -- Se activa cuando se vuelve a activar la MC
 --------------------------------------------------------------------------------------------------
 ----------- Bus outputs
 -------------------------------------------------------------------------------------------------- 

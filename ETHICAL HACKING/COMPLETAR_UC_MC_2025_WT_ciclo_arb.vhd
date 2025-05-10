@@ -73,6 +73,7 @@ entity UC_MC is
 		inc_r : out STD_LOGIC; -- indicates a read occurred in cache
 		inc_inv :out STD_LOGIC; -- indica que ha habido una invalidaci�n
 		inc_rm : out STD_LOGIC; -- indicates a read miss occurred in cache
+		inc_accMd : out STD_LOGIC; -- increment number of accesses to MD with MC disabled
 		-- Error management
 		unaligned: in STD_LOGIC; -- indicates the address requested by MIPS is not aligned
 		Mem_ERROR: out std_logic; -- activated if in the last transfer the slave did not respond to its address
@@ -86,7 +87,10 @@ entity UC_MC is
         MC_send_data : out  STD_LOGIC; -- commands sending data
         Frame : out  STD_LOGIC; -- indicates that the operation is not yet complete
         last_word : out  STD_LOGIC; -- indicates that this is the last data of the transfer
-        Bus_req :  out  STD_LOGIC -- indicates a bus request to the arbiter
+        Bus_req :  out  STD_LOGIC; -- indicates a bus request to the arbiter
+
+		-- NUEVA SEÑAL PARA ETHICAL HACKING
+		MC_desactivada: in std_logic -- Se activa cuando la memoria caché está desactivada
 	);
 end UC_MC;
 
@@ -157,7 +161,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
    
    --MEALY State-Machine - Outputs based on state and inputs
    -- Important: check that the signals used as inputs are included in the sensitivity list
-   OUTPUT_DECODE: process (state, error_state, RE, WE, Fetch_inc, unaligned, internal_addr, Bus_grant, hit, addr_non_cacheable, Bus_DevSel, hit0, hit1, bus_TRDY, via_2_rpl, last_word_block)
+   OUTPUT_DECODE: process (state, error_state, RE, WE, Fetch_inc, unaligned, internal_addr, Bus_grant, hit, addr_non_cacheable, Bus_DevSel, hit0, hit1, bus_TRDY, via_2_rpl, last_word_block, MC_desactivada) -- AÑADIR MC_DESACTIVADA para ethical hacking
    begin
 			  -- default values, if no other value is assigned in a state these are the defaut values
 	MC_WE0 <= '0';
@@ -179,6 +183,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 	inc_r <= '0';
 	inc_rm <= '0';
 	inc_inv <= '0';
+	inc_accMd <= '0'; 
 	Bus_req <= '0';
 	mux_output <= "00";
 	last_word <= '0';
@@ -214,7 +219,8 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 			elsif ((((RE = '1' and hit = '0') or (Fetch_inc = '1') or (WE = '1')) AND addr_non_cacheable = '0') OR (((RE = '1') or (Fetch_inc = '1') or (WE = '1')) and addr_non_cacheable = '1')) then -- si involucra alguna operación que tenga que hacer uso del bus
 				Bus_req <= '1'; 
 				if(Bus_grant = '1') then -- Bus_grant puede ser levantado en el mismo ciclo
-					if ( (RE = '1' or WE = '1') and hit = '0' and addr_non_cacheable = '0'  ) then -- CASO de miss: Se debe traer un BLOQUE (lw_inc tiene tratamiento especial, de ahí que no se incluya)
+					if ( (RE = '1' or WE = '1') and hit = '0' and addr_non_cacheable = '0' and MC_desactivada = '0' ) then -- CASO de miss: Se debe traer un BLOQUE (lw_inc tiene tratamiento especial, de ahí que no se incluya)
+						                                                                                                   -- NUEVO!! Para cargar un bloque la cache debe estar activada. Si no lo está, transferencia de palabra con set duelling (actualizar tags)
 						next_state <= block_transfer_addr;
 					else  -- En otro caso, será una tranferencia de palabra, bien sea con MD_scratch o con MD (y lectura o escritura)
 						next_state <= single_word_transfer_addr;
@@ -224,10 +230,21 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				end if;
 			elsif (RE= '1' and  hit='1') then -- read hit
 				-- ORDER MATTERS: IF THIS OPTION GOES BEFORE fetch_inc if fetch_inc and RE are activated it would be treated as RE. It depends on how the fetch_inc signals are handled, this may or may not happen.
-				next_state <= Inicio;
-				ready <= '1';
-				inc_r <= '1'; -- MC read
-				mux_output <= "00"; -- This is the default value. There is no need to set it. The output is a data stored in the MC
+				
+				if (MC_desactivada = '1') then -- Si la cache está desactivada, se trata como un acceso a MD
+					Bus_req <= '1';
+					if(Bus_grant = '1') then
+						next_state <= single_word_transfer_addr;
+					else
+						next_state <= Inicio;
+					end if;
+				else
+					ready <= '1';
+					inc_r <= '1'; -- MC read
+					mux_output <= "00"; -- This is the default value. There is no need to set it. The output is a data stored in the MC
+					next_state <= Inicio;
+				end if;
+
 			--elsif (WE= '1' and  hit='1') then -- write hit
 			---COMPLETE:
 				
@@ -261,12 +278,22 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				if (WE = '1' and addr_non_cacheable = '1') then -- Escritura sobre MD_scratch
 					next_state <= send_single_word_data;
 				elsif (WE = '1' and hit = '1' and addr_non_cacheable = '0') then-- CASO DE ESCRITURA SOBRE MD : WRITE THROUGH
-				-- A nivel de transferencia en el bus idéntico a MD_scratch, pero se debe asimismo escribir la palabra en la memoria caché
+				    -- A nivel de transferencia en el bus idéntico a MD_scratch, pero se debe asimismo escribir la palabra en la memoria caché
 					next_state <= send_single_word_data;
 					inc_w  <= '1'; -- Se escribe sobre memoria cache
-					-- Nótese que no estarán ambos activados, tan solo sobre el que se escriba
-					MC_WE0 <= hit0;
-					MC_WE1 <= hit1;
+					if (MC_desactivada = '0') then -- Solo se escribe si la cache está activada (pero se cuenta siempre!!)
+					  -- Nótese que no estarán ambos activados, tan solo sobre el que se escriba
+						MC_WE0 <= hit0;
+						MC_WE1 <= hit1;
+					end if;
+				elsif( (RE = '1' or WE = '1') and hit = '0' and addr_non_cacheable = '0' and MC_desactivada = '1') then -- CASO DE MISS CON CACHE DESACTIVADA. CONTAR!!
+				    inc_m <= '1'; -- Se incrementa el número de misses
+					if (RE = '1') then -- Incrementar número de read misses
+						inc_rm <= '1'; -- Se incrementa el número de misses
+						next_state <= bring_single_word_data;
+					else
+						next_state <= send_single_word_data;
+					end if;
 				elsif ( ((RE = '1' OR Fetch_inc = '1') AND addr_non_cacheable = '1') OR (Fetch_inc = '1' and hit = '0' and addr_non_cacheable = '0')) then -- caso de lectura sobre MD_scratch o lw_inc sobre MD que que no necesita invalidar MC
 					next_state <= bring_single_word_data;
 				elsif (Fetch_inc = '1' and hit = '1' and addr_non_cacheable = '0') then -- caso de lw_inc sobre MD que da hit en la cache: HAY QUE INVALIDAR
@@ -275,7 +302,7 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 					-- pero en caso de  hit se debe invalidar el bloque para reflejar esta disparidad
 					next_state <= bring_single_word_data;
 					inc_inv <= '1';
-					invalidate_bit <= '1';
+					invalidate_bit <= '1'; -- Se invalida el bloque siempre para prodecer con el set duelling
 				else -- CÓDIGO INALCANZABLE
 					next_state <= Inicio;
 				end if;
@@ -318,6 +345,9 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				ready <= '1'; -- Se comunica al procesador que se ha procesado su petición en el siguiente ciclo
 				--last_word <= '1'; -- La MD (en su caso) debe saber que esta era la última (además de única) palabra para volver al estado de espera
 				next_state <= Inicio;
+				if(WE = '1' and addr_non_cacheable = '0' and MC_desactivada= '1') then -- Se procede a actualizar los tags de la caché, tal como se haría en un caso normal
+					MC_tags_WE <= '1';
+				end if;
 			end if;
 
 		when bring_single_word_data =>
@@ -334,6 +364,9 @@ Mem_ERROR <= '1' when (error_state = memory_error) else '0';
 				--last_word <= '1'; -- La MD (en su caso) debe saber que esta era la última (además de única) palabra para volver al estado de espera
 				mux_output  <= "01"; -- Siempre se envía la palabra procedente del bus
 				next_state <= Inicio;
+				if(RE = '1' and addr_non_cacheable = '0' and MC_desactivada= '1') then -- Se procede a actualizar los tags de la caché, tal como se haría en un caso normal
+					MC_tags_WE <= '1';
+				end if;
 			end if;
 
 		when bring_block_data =>
