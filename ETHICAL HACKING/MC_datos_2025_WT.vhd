@@ -293,6 +293,9 @@ Estado_cache: reg generic map (size => 1)
 MC_desactivada_logical <= MC_desactivada(0); -- Se usa para indicar que la cache esta desactivada
 -- Señal para invalidar todos los bloques de la cache mientras cuando vuelva a activarse -> resultado del set duelling
 invalidar_all <= '1' when (cambiar_Estado_cache = '1' and MC_desactivada="1") else '0'; -- Se activa cuando se vuelve a activar la MC
+
+
+
 --------------------------------------------------------------------------------------------------
 ----------- Bus outputs
 -------------------------------------------------------------------------------------------------- 
