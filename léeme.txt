@@ -1,0 +1,13 @@
+En la entrega hay 3 carpetas:
+
+	- BASICO: Esta carpeta contiene el MIPS y la memoria cache tal y como se plantea el requisito de funcionamiento básico del proyecto,
+	es decir, sin apartados optativos.
+
+	- WRITE BUFFERING: Esta carpeta contiente los mismos ficheros que la carpeta básico y además las modificiones pertinentes como los buffers necesarios 	para el desarrollo del primer apartado opcional.
+
+	- ETHICAL HACKING: Esta carpeta contiene los mismos ficheros que la carpeta básico y también los archivos modificados con el fin del desarrollo
+	de este segundo apartado opcional como por ejemplo las Vias.
+
+Las 3 carpetas contienen las modificaciones que se hicieron a los bancos de registros que propagan la señales entre etapas, por si hiciesen falta.
+
+Se entregan como 3 carpetas distintas por las limitaciones de tiempo de implementar ambos apartados opcionales en la misma UC y a la vez incorporar todas las modificaciones de los otros ficheros, ya que se tendría que haber testeado debidamente toda la casuística en caso de dicha implementación conjunto y no se contaban con las horas necesarias como para realizar dicha comprobación.
